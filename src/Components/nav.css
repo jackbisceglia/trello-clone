@@ -1,0 +1,14 @@
+.bar {
+    width: 100vw;
+    height: 7.5vh;
+    background-color: #07B4EE;
+    display: flex;
+}
+
+.bar h1 {
+    color: #0F1F2A;
+    font-size: 1.5em;
+    font-weight: 600;
+    align-self: center;
+    margin-left: 25px;
+}

@@ -1,0 +1,16 @@
+.task {
+    width: 90%;
+    height: 2.5rem;
+    background-color: rgb(243, 243, 243);
+    margin: 6px 0;
+    border-radius: .5rem;
+    box-shadow: 0 2px 1px rgba(0, 0, 0, .15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    margin: 0 15px;
+    font-size: 1.25rem;
+}
