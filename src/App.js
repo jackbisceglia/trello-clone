@@ -8,9 +8,7 @@ function App() {
     <>
     <Navbar />
     <div className="contain">
-      <Card title={"Clean Room"}/>
-      <Card title={"Do the Dishes"}/>
-      <Card title={"Go on Jog"}/>
+      <Card title={"ToDo"}/>
     </div>
     </>
   );

@@ -1,17 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './card.css';
 import Task from './Task';
 
 
 export default function Card(props) {
+    const [tasks, setTasks] = useState([]);
+    const [add, setAdd] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (add === ''){
+            return;
+        }
+        else{
+           setTasks([...tasks, add]) 
+           setAdd('')
+        }
+    }
+
     return (
         <div className="card">
                 <h3>{props.title}</h3>
-                <Task title={"Make Bed"}/>
-                <Task title={"Paint Walls"}/>
-                <Task title={"Vacuum"}/>
-                <form className="add-task" action="input">
-                    <input type="text" placeholder="Add Task"/> 
+                {tasks.map(task => (
+                    <Task title={task}/>
+                ))}
+                <form className="add-task" action="input" onSubmit={handleSubmit}>
+                    <input value={add} type="text" placeholder="Add Task" onChange={event => setAdd(event.target.value)}/> 
                     <button className="add-btn">+</button>  
                 </form> 
         </div>

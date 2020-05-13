@@ -1,6 +1,6 @@
 .task {
     width: 90%;
-    height: 2.5rem;
+    min-height: 2.5rem;
     background-color: rgb(243, 243, 243);
     margin: 6px 0;
     border-radius: .5rem;
@@ -11,6 +11,50 @@
 }
 
 .title {
+    line-height: normal;
+    cursor: default;
     margin: 0 15px;
     font-size: 1.25rem;
+}
+
+.delete {
+    font-size: 1rem;
+    color: rgb(255, 86, 71);
+    cursor: pointer;
+    font-weight: 600;
+    background-color: transparent;
+    outline: none;
+    border-style: none;
+    margin-right: 12px;
+}
+
+.delete:hover {
+    color: rgb(220, 73, 60);
+}
+
+.buttons {
+    height: 95%;
+    display: flex;
+    align-items: center;
+}
+
+.edit-task {
+    cursor: pointer;
+    height: 1.6rem;
+    width: 1.6rem;
+    color: #0F1F2A;
+    outline: none;
+    border-radius: 20px;
+    border-style: none;
+    border: 2px solid #07B4EE;
+    background-color: transparent;
+    margin: 0 5px;
+    background-image: url('../Icons/icons8-edit.svg');
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.edit-task:hover {
+    background-color: #07B4EE;
 }

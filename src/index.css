@@ -1,4 +1,5 @@
 body {
+  overflow-x: hidden;
   margin: 0;
   font-family: 'Jost', sans-serif;
   -webkit-font-smoothing: antialiased;

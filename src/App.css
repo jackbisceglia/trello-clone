@@ -1,7 +1,7 @@
 .contain {
-  height: 92.5vh;
+  min-height: 92.5vh;
   width: 100vw;
-  background-color: rgb(12, 38, 56);
+  background-color: rgb(18, 55, 83);
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
