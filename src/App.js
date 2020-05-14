@@ -9,6 +9,7 @@ function App() {
     <Navbar />
     <div className="contain">
       <Card title={"ToDo"}/>
+      <h1>Hi</h1>
     </div>
     </>
   );
