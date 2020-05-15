@@ -47,7 +47,7 @@
 }
 
 .delete:hover {
-    background-color: rgba(220, 73, 60, .3);
+    background-color: rgba(220, 73, 60, .35);
 
 }
 
@@ -73,11 +73,10 @@
     background-position: center;
     background-repeat: no-repeat;
     transition: 0.5s;
-
 }
 
 .edit-task:hover {
-    background-color: rgba(7, 180, 238, 0.3);
+    background-color: rgba(7, 180, 238, 0.5);
 }
 
 .update-form {

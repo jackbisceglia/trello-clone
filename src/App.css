@@ -1,8 +1,32 @@
 .contain {
   min-height: 92.5vh;
-  width: 100vw;
+  min-width: 100vw;
+  width: auto;
   background-color: rgb(18, 55, 83);
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+  overflow-x: auto;
+}
+
+.new-list {
+  margin-right: 20px;
+  cursor: pointer;
+  height: 2rem;
+  width: 6rem;
+  background-color: #07B4EE;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, .25);
+  border-style: none;
+  border-radius: .25rem;
+  margin: 20px;
+  color: rgb(0, 0, 0);
+  font-weight: 500;
+  font-size: .8rem;
+  transition: 0.5s;
+  margin-top: 4.5rem;
+  outline: none;
+}
+
+.new-list:hover {
+  background-color: rgba(7, 180, 238, 0.8);
 }
