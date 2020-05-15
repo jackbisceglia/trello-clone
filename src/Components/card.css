@@ -46,14 +46,16 @@
     margin: 0 5px;
     outline: none;
     font-weight: 600;
+    font-size: 1.25rem;
     cursor: pointer;
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.6rem;
+    height: 1.6rem;
     border-radius: 1rem;
     border-style: none;
-    background-color: #07B4EE;
+    background-color: transparent ;
+    transition: 0.5s;
 }
 
 .add-btn:hover {
-    background-color: rgb(9, 163, 214);
+    background-color: rgba(7, 180, 238, 0.3);
 }

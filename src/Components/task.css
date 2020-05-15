@@ -3,7 +3,7 @@
     min-height: 2.5rem;
     background-color: rgb(243, 243, 243);
     margin: 6px 0;
-    border-radius: .5rem;
+    border-radius: .25rem;
     box-shadow: 0 2px 1px rgba(0, 0, 0, .15);
     display: flex;
     justify-content: space-between;
@@ -11,50 +11,75 @@
 }
 
 .title {
-    line-height: normal;
-    cursor: default;
-    margin: 0 15px;
-    font-size: 1.25rem;
+    text-align: left;
+    width: auto;
+    line-height: 1rem;
+    cursor: pointer;
+    margin: 0.5rem 15px;
+    font-size: .95rem;
+    font-weight: 500;
+}
+
+.update-task {
+    float: left;
+    border: 1px solid;
+    max-width: 65%;
+    margin-left: 15px;
+    background-color: transparent;
+    border-style: none;
+    outline: none;
+    border-bottom: 1px solid #07B4EE;
 }
 
 .delete {
-    font-size: 1rem;
+    margin: 0 .25px;
+    height: 1.5rem;
+    width: 1.5rem;
+    font-size: .8rem;
     color: rgb(255, 86, 71);
     cursor: pointer;
     font-weight: 600;
     background-color: transparent;
     outline: none;
     border-style: none;
-    margin-right: 12px;
+    border-radius: 20px;
+    transition: 0.5s;
 }
 
 .delete:hover {
-    color: rgb(220, 73, 60);
+    background-color: rgba(220, 73, 60, .3);
+
 }
 
 .buttons {
     height: 95%;
     display: flex;
     align-items: center;
+    margin-right: 5px;
 }
 
 .edit-task {
+    margin: 0 .25px;
     cursor: pointer;
-    height: 1.6rem;
-    width: 1.6rem;
+    height: 1.5rem;
+    width: 1.5rem;
     color: #0F1F2A;
     outline: none;
     border-radius: 20px;
     border-style: none;
-    border: 2px solid #07B4EE;
     background-color: transparent;
-    margin: 0 5px;
     background-image: url('../Icons/icons8-edit.svg');
-    background-size: 70%;
+    background-size: 60%;
     background-position: center;
     background-repeat: no-repeat;
+    transition: 0.5s;
+
 }
 
 .edit-task:hover {
-    background-color: #07B4EE;
+    background-color: rgba(7, 180, 238, 0.3);
+}
+
+.update-form {
+    margin: 0;
 }

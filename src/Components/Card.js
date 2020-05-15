@@ -18,11 +18,15 @@ export default function Card(props) {
         }
     }
 
+    const handleRemove = (indexDel) => {
+        setTasks(tasks.filter((task, index) => index !== indexDel));
+    }
+
     return (
         <div className="card">
                 <h3>{props.title}</h3>
-                {tasks.map(task => (
-                    <Task title={task}/>
+                {tasks.map((task, index) => (
+                    <Task title={task} onDelete={() => handleRemove(index)} key={index}/>
                 ))}
                 <form className="add-task" action="input" onSubmit={handleSubmit}>
                     <input value={add} type="text" placeholder="Add Task" onChange={event => setAdd(event.target.value)}/> 
