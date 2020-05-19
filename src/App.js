@@ -5,22 +5,23 @@ import Navbar from './Components/Navbar';
 import Card from './Components/Card';
 
 function App() {
-  const [cards, setCards] = useState(['Make First Card']);
+  const [cards, setCards] = useState(['Start Your First Card']);
 
-  const handleCardRemove = (indexDel) => {
-    setCards(cards.filter((task, index) => index !== indexDel));
-  }
+  const handleRemove = (removeCard) => {
+    setCards(cards.filter(currCard => currCard !== removeCard));
+}
+
 
   return (
     <>
-    <Navbar />
+    <Navbar /> 
     <div className="contain">
-      {cards.map((card, index) => (
-        <Card title={card} key={index} needsTitle={true} handleRemove={() => handleCardRemove(index)}/>
+      {cards.map(currCard => (
+        <Card title={currCard} key={currCard} needsTitle={false} onDelete={() => handleRemove(currCard)}/>
       ))}
       <button
         className="new-list"
-        onClick={() => setCards([...cards, 'New Card'])}
+        onClick={() => setCards([...cards, `Card ${cards.length + 1}`])}
         >New Task
       </button>
     </div>

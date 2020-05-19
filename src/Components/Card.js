@@ -7,7 +7,7 @@ export default function Card(props) {
     const [tasks, setTasks] = useState([]);
     const [add, setAdd] = useState('');
     const [changingTitle, setChangingTitle] = useState(props.needsTitle);
-    const [title, setTitle] = useState(props.title);
+    const [cardTitle, setCardTitle] = useState(props.title);
     const [newTitle, setNewTitle] = useState('')
 
     const handleSubmit = (e) => {
@@ -23,12 +23,12 @@ export default function Card(props) {
 
     const updateTitle = (e) => {
         e.preventDefault();
-        setTitle(newTitle)
+        setCardTitle(newTitle)
         setChangingTitle(!changingTitle)
     }
 
-    const handleRemove = (indexDel) => {
-        setTasks(tasks.filter((task, index) => index !== indexDel));
+    const handleRemove = (removeTask) => {
+        setTasks(tasks.filter(currTask => currTask !== removeTask));
     }
 
     return (
@@ -41,26 +41,26 @@ export default function Card(props) {
                                 onChange={event => setNewTitle(event.target.value)}
                                 type="text"
                                 className="update-title"
-                                placeholder={title}
+                                placeholder={cardTitle}
                             />
                         </form>
                     :
                         <>
-                        <h3 onClick={() => setChangingTitle(!changingTitle)}>{title}</h3>
+                        <h3 onClick={() => setChangingTitle(!changingTitle)}>{cardTitle}</h3>
                         </>   
                 }
 
             </div>
             
-            {tasks.map((task, index) => (
-                <Task title={task} onDelete={() => handleRemove(index)} key={index}/>
+            {tasks.map(currTask => (
+                <Task title={currTask} onDelete={() => handleRemove(currTask)} key={currTask}/>
             ))}
 
             <form className="add-task" action="input" onSubmit={handleSubmit}>
                 <input value={add} type="text" placeholder="Add Task" onChange={event => setAdd(event.target.value)}/> 
                 <button className="add-btn" >+</button>  
             </form>
-            <button onClick={props.handleRemove} className="delete-card">Delete</button>
+            <button onClick={props.onDelete} className="delete-card">Delete</button>
         </div>
     )
 }
