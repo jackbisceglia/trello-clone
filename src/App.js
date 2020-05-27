@@ -56,6 +56,7 @@ function App() {
     }))
   }
 
+  // Get Help for more improved version of function
   const updateTask = (oldName, newName, cardTitle) => {
     let tempObj = cards.slice();
     tempObj.forEach(currEl => {
@@ -64,6 +65,20 @@ function App() {
         let replace = copyTasks.indexOf(oldName);
         copyTasks[replace] = newName;
         currEl.tasks = copyTasks
+      }
+    })
+    setCards(tempObj); 
+  }
+
+  
+  const deleteTask = (toDel, cardTitle) => {
+    let tempObj = cards.slice();
+    tempObj.forEach(currEl => {
+      if (currEl.title === cardTitle){
+        let copyTasks = currEl.tasks.slice();
+        let replace = copyTasks.indexOf(toDel);
+        copyTasks.splice(replace, 1);
+        currEl.tasks = copyTasks;
       }
     })
     setCards(tempObj); 
@@ -89,6 +104,7 @@ function App() {
 
           // TASK FUNCTIONS
           updateTask={updateTask}
+          deleteTask={deleteTask}
         />
       ))}
 

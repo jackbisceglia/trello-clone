@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 
-export default function NewTask({taskName, updateTask, parentTitle}) {
+export default function NewTask({taskName, updateTask, parentTitle, deleteTask}) {
     const [isTitleChanging, setIsTitleChanging] = useState(false);
     const [taskChange, setTaskChange] = useState('');
 
@@ -28,14 +28,13 @@ export default function NewTask({taskName, updateTask, parentTitle}) {
                             className="update-task" 
                             type="text" placeholder={taskName}
                         />
-                        <button>Submit</button>
                     </form>
                 :
                     <p className="title" onClick={() => setIsTitleChanging(!isTitleChanging)}> {taskName} </p>
             }
             <div className="buttons">
                 <button className="edit-task" onClick={() => setIsTitleChanging(!isTitleChanging)}></button>
-                <button className="delete">X</button>
+                <button className="delete" onClick={() => deleteTask(taskName, parentTitle)}>X</button>
             </div>
         </div>
         </>

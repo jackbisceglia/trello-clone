@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import NewTask from './NewTask';
 
-export default function NewCard({title, tasks, updateCardTitle, addTaskState, removeCard, updateTask}) {
+export default function NewCard({title, tasks, updateCardTitle, removeCard, addTaskState, updateTask, deleteTask}) {
     const [isTitleChanging, setIsTitleChanging] = useState(false);
 
     const [titleChange, setTitleChange] = useState('');
@@ -42,7 +42,7 @@ export default function NewCard({title, tasks, updateCardTitle, addTaskState, re
             </div>
 
             {tasks.map(currTask => (
-                <NewTask taskName={currTask} key={currTask} updateTask={updateTask} parentTitle={title}/>
+                <NewTask taskName={currTask} key={currTask} updateTask={updateTask} parentTitle={title} deleteTask={deleteTask}/>
             ))}
 
             <form className="add-task" action="input" onSubmit={event => handleSubmit(event, taskAdd, setTaskAdd, addTaskState)}>
