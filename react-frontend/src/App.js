@@ -3,17 +3,12 @@ import './App.css';
 import './Components/card.css';
 import Navbar from './Components/Navbar';
 import Card from './Components/Card';
-import NewCard from './Components/NewCard';
 
 function App() {
   const [cards, setCards] = useState([
     {
-      title : 'card 1',
-      tasks : ['a', 'b', 'c']
-    },
-    {
-      title : 'card 2',
-      tasks : ['d', 'e', 'f']
+      title : 'Update Name',
+      tasks : [['Task 1 (change)', false]]
     }
   ]);
 
@@ -49,7 +44,7 @@ function App() {
       if (curr.title === card) {
         return {
           ...curr,
-          tasks : [...curr.tasks, taskTitle]
+          tasks : [...curr.tasks, [taskTitle, false]]
         }
       } 
       return curr
@@ -57,27 +52,71 @@ function App() {
   }
 
   // Get Help for more improved version of function
-  const updateTask = (oldName, newName, cardTitle) => {
+  // Old Update Task --> No Strikthrough
+  // const updateTask = (oldName, strike, newName, cardTitle) => {
+  //   let tempObj = cards.slice();
+  //   tempObj.forEach(currEl => {
+  //     if (currEl.title === cardTitle){
+  //       let copyTasks = currEl.tasks.slice();
+  //       let replace = copyTasks.indexOf([oldName, strike]);
+  //       copyTasks[replace] = [newName, false];
+  //       currEl.tasks = copyTasks
+  //     }
+  //   })
+  //   setCards(tempObj); 
+  // }
+  
+  // New Update Task --> With Strikthrough
+  const updateTask = (taskArr, newName, cardTitle) => {
     let tempObj = cards.slice();
     tempObj.forEach(currEl => {
       if (currEl.title === cardTitle){
         let copyTasks = currEl.tasks.slice();
-        let replace = copyTasks.indexOf(oldName);
-        copyTasks[replace] = newName;
-        currEl.tasks = copyTasks
+        let targetIndex = -1;
+        copyTasks.forEach((task, index) => {
+          if ((task[0] === taskArr[0]) && (task[1] === taskArr[1])){
+            targetIndex = index;
+          }
+        })
+        copyTasks[targetIndex] = [newName, taskArr[1]];
+        currEl.tasks = copyTasks;
       }
     })
     setCards(tempObj); 
   }
 
   
-  const deleteTask = (toDel, cardTitle) => {
+  const deleteTask = (taskToDel, cardTitle) => {
     let tempObj = cards.slice();
     tempObj.forEach(currEl => {
       if (currEl.title === cardTitle){
         let copyTasks = currEl.tasks.slice();
-        let replace = copyTasks.indexOf(toDel);
-        copyTasks.splice(replace, 1);
+        let targetIndex = -1;
+        copyTasks.forEach((task, index) => {
+          if ((task[0] === taskToDel[0]) && (task[1] === taskToDel[1])){
+            targetIndex = index;
+          }
+        })
+        copyTasks.splice(targetIndex, 1);
+        currEl.tasks = copyTasks;
+      }
+    })
+    setCards(tempObj);
+  }
+
+  const changeStrikeThrough = (taskArr, cardTitle) => {
+    let tempObj = cards.slice();
+    tempObj.forEach(currEl => {
+      if (currEl.title === cardTitle){
+        let copyTasks = currEl.tasks.slice();
+        let targetIndex = -1;
+        copyTasks.forEach((task, index) => {
+          if ((task[0] === taskArr[0]) && (task[1] === taskArr[1])){
+            targetIndex = index;
+          }
+        })
+        copyTasks[targetIndex] = [taskArr[0], !taskArr[1]];
+        console.log(copyTasks[targetIndex]);
         currEl.tasks = copyTasks;
       }
     })
@@ -92,7 +131,7 @@ function App() {
       
       {/* CARDS */}
       {cards.map(currCard => (
-        <NewCard 
+        <Card 
           title={currCard.title}
           tasks={currCard.tasks}
           key={currCard.title}
@@ -105,13 +144,14 @@ function App() {
           // TASK FUNCTIONS
           updateTask={updateTask}
           deleteTask={deleteTask}
+          changeStrikeThrough={changeStrikeThrough}
         />
       ))}
 
       {/* NEW CARD */}
       <button
         className="new-list"
-        onClick={() => setCards([...cards, {title : `card ${cards.length + 1}`, tasks : ['j', 'k', 'l']}])}
+        onClick={() => setCards([...cards, {title : `Card ${cards.length + 1}`, tasks : []}])}
         >New Task
       </button>
 

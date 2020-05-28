@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
+import './task.css';
 
-export default function NewTask({taskName, updateTask, parentTitle, deleteTask}) {
+export default function Task({task, updateTask, parentTitle, deleteTask, changeStrikeThrough}) {
     const [isTitleChanging, setIsTitleChanging] = useState(false);
     const [taskChange, setTaskChange] = useState('');
 
@@ -10,11 +11,13 @@ export default function NewTask({taskName, updateTask, parentTitle, deleteTask})
             return;
         }
         else{
-           updateTask(taskName, taskChange, parentTitle);
+           updateTask(task, taskChange, parentTitle);
            setTaskChange('');
            setIsTitleChanging(!isTitleChanging);
         }
     }
+
+    const strikeThrough = task[1];
 
     
     return (
@@ -26,15 +29,20 @@ export default function NewTask({taskName, updateTask, parentTitle, deleteTask})
                         <input 
                             onChange={event => setTaskChange(event.target.value)}
                             className="update-task" 
-                            type="text" placeholder={taskName}
+                            type="text" placeholder={task[0]}
                         />
                     </form>
                 :
-                    <p className="title" onClick={() => setIsTitleChanging(!isTitleChanging)}> {taskName} </p>
+                    <p 
+                        className="title"
+                        onClick={() => changeStrikeThrough(task, parentTitle)}
+                        style={strikeThrough ? {textDecoration: 'line-through', textDecorationWidth: '100px', textDecorationThickness: '100px', fontStyle: 'italic'} : {textDecoration: 'none'}}> 
+                        {task[0]} 
+                    </p>
             }
             <div className="buttons">
                 <button className="edit-task" onClick={() => setIsTitleChanging(!isTitleChanging)}></button>
-                <button className="delete" onClick={() => deleteTask(taskName, parentTitle)}>X</button>
+                <button className="delete" onClick={() => deleteTask(task, parentTitle)}>X</button>
             </div>
         </div>
         </>
