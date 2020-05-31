@@ -7,8 +7,8 @@ import Card from './Components/Card';
 function App() {
   const [cards, setCards] = useState([
     {
-      title : 'Update Name',
-      tasks : [['Task 1 (change)', false]]
+      title : 'This is the title of the card',
+      tasks : [['This is the task title', true]]
     }
   ]);
 
