@@ -9,6 +9,14 @@ function App() {
     {
       title : 'This is the title of the card',
       tasks : [['This is the task title', true]]
+    },
+    {
+      title : 'This is the title of the card (2)',
+      tasks : [['This is the task title (2)', true]]
+    },
+    {
+      title : 'This is the title of the card (3)',
+      tasks : [['This is the task title (3)', true]]
     }
   ]);
 
