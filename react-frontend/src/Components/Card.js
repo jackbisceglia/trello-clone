@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './card.css';
 import Task from './Task';
 
-export default function Card({title, tasks, updateCardTitle, removeCard, addTaskState, updateTask, deleteTask, changeStrikeThrough}) {
+export default function Card({title, tasks, id, updateCardTitle, removeCard, addTaskState, updateTask, deleteTask, changeStrikeThrough}) {
     const [isTitleChanging, setIsTitleChanging] = useState(false);
 
     const [titleChange, setTitleChange] = useState('');
@@ -19,6 +19,7 @@ export default function Card({title, tasks, updateCardTitle, removeCard, addTask
            setSt('')
         }
     }
+
 
     return (
         <div className="card">
@@ -44,8 +45,8 @@ export default function Card({title, tasks, updateCardTitle, removeCard, addTask
 
             {tasks.map(currTask => (
                 <Task 
-                    task={currTask}
-                    key={currTask}
+                    task={currTask.title}
+                    key={currTask.id}
                     updateTask={updateTask}
                     parentTitle={title} 
                     deleteTask={deleteTask}
@@ -59,7 +60,7 @@ export default function Card({title, tasks, updateCardTitle, removeCard, addTask
                 <button className="add-btn" >+</button>  
             </form>
             
-            <button className="delete-card" onClick={() => removeCard(title)}>Delete</button>
+            <button className="delete-card" onClick={() => removeCard(title, id)}>Delete</button>
         </div>
     )
 }

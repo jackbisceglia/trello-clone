@@ -1,31 +1,28 @@
 import React, {useState} from 'react'
 import './task.css';
 
-export default function Task({task, updateTask, parentTitle, deleteTask, changeStrikeThrough}) {
+export default function Task({task}) {
     const [isTitleChanging, setIsTitleChanging] = useState(false);
     const [taskChange, setTaskChange] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (taskChange === ''){
-            return;
-        }
-        else{
-           updateTask(task, taskChange, parentTitle);
-           setTaskChange('');
-           setIsTitleChanging(!isTitleChanging);
-        }
-    }
-
-    const strikeThrough = task[1];
-
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     if (taskChange === ''){
+    //         return;
+    //     }
+    //     else{
+    //        updateTask(task, taskChange, parentTitle);
+    //        setTaskChange('');
+    //        setIsTitleChanging(!isTitleChanging);
+    //     }
+    // }
     
     return (
         <>
         <div className="task">
             {isTitleChanging
                 ?
-                    <form className="update-form" onSubmit={event => handleSubmit(event)}>
+                    <form className="update-form" >
                         <input 
                             onChange={event => setTaskChange(event.target.value)}
                             className="update-task" 
@@ -35,14 +32,14 @@ export default function Task({task, updateTask, parentTitle, deleteTask, changeS
                 :
                     <p 
                         className="title"
-                        onClick={() => changeStrikeThrough(task, parentTitle)}
-                        style={strikeThrough ? {textDecoration: 'line-through', textDecorationWidth: '100px', textDecorationThickness: '100px', fontStyle: 'italic'} : {textDecoration: 'none'}}> 
-                        {task[0]} 
+                        // style={strikeThrough ? {textDecoration: 'line-through', textDecorationWidth: '100px', textDecorationThickness: '100px', fontStyle: 'italic'} : {textDecoration: 'none'}}
+                    > 
+                        {task} 
                     </p>
             }
             <div className="buttons">
-                <button className="edit-task" onClick={() => setIsTitleChanging(!isTitleChanging)}></button>
-                <button className="delete" onClick={() => deleteTask(task, parentTitle)}>X</button>
+                <button className="edit-task"></button>
+                <button className="delete">X</button>
             </div>
         </div>
         </>
