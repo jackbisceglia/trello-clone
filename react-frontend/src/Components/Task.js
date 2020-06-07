@@ -1,48 +1,63 @@
 import React, {useState} from 'react'
 import './task.css';
 
-export default function Task({task, updateTask, parentTitle, deleteTask, changeStrikeThrough}) {
-    const [isTitleChanging, setIsTitleChanging] = useState(false);
-    const [taskChange, setTaskChange] = useState('');
+export default function Task({
+    taskTitle, taskId, taskCompleted, parentId, 
+    updateTaskTitle, deleteTask
+}) 
+{
+    const [newTaskTitle, setNewTaskTitle] = useState('');
+    const [taskTitleChangeBool, setTaskTitleChangeBool] = useState(false);
 
-    const handleSubmit = (e) => {
+    const [isCompleted, setIsCompleted] = useState(taskCompleted);
+
+    const handleUpdateSubmit = (e) => {
         e.preventDefault();
-        if (taskChange === ''){
+        if (newTaskTitle === ''){
             return;
         }
         else{
-           updateTask(task, taskChange, parentTitle);
-           setTaskChange('');
-           setIsTitleChanging(!isTitleChanging);
+           updateTaskTitle(taskId, newTaskTitle);
+           setNewTaskTitle('');
+           setTaskTitleChangeBool(!taskTitleChangeBool);
         }
     }
 
-    const strikeThrough = task[1];
 
     
     return (
         <>
         <div className="task">
-            {isTitleChanging
+            {taskTitleChangeBool
                 ?
-                    <form className="update-form" onSubmit={event => handleSubmit(event)}>
+                    <form className="update-form" onSubmit={event => handleUpdateSubmit(event)}>
                         <input 
-                            onChange={event => setTaskChange(event.target.value)}
                             className="update-task" 
-                            type="text" placeholder={task[0]}
+                            type="text" 
+                            placeholder={taskTitle}
+                            onChange={event => setNewTaskTitle(event.target.value)}
                         />
                     </form>
                 :
+                    <>
                     <p 
+                        onClick={() => setIsCompleted(!isCompleted)}
                         className="title"
-                        onClick={() => changeStrikeThrough(task, parentTitle)}
-                        style={strikeThrough ? {textDecoration: 'line-through', textDecorationWidth: '100px', textDecorationThickness: '100px', fontStyle: 'italic'} : {textDecoration: 'none'}}> 
-                        {task[0]} 
+                        style={isCompleted ? {textDecoration: 'line-through', textDecorationWidth: '100px', textDecorationThickness: '100px', fontStyle: 'italic'} : {textDecoration: 'none',}}> 
+                        {taskTitle} 
                     </p>
+                    </>
             }
             <div className="buttons">
-                <button className="edit-task" onClick={() => setIsTitleChanging(!isTitleChanging)}></button>
-                <button className="delete" onClick={() => deleteTask(task, parentTitle)}>X</button>
+                <button 
+                    className="edit-task"
+                    onClick={() => setTaskTitleChangeBool(!taskTitleChangeBool)}>
+                </button>
+
+                <button
+                    className="delete"
+                    onClick={() => deleteTask(taskId)}
+                >X</button>
             </div>
         </div>
         </>

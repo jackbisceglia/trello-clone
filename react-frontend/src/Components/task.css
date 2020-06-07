@@ -13,6 +13,7 @@
 .title {
     text-align: left;
     width: auto;
+    max-width: 35%;
     line-height: 1rem;
     cursor: pointer;
     margin: 0.5rem 15px;

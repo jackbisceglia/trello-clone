@@ -2,64 +2,84 @@ import React, {useState} from 'react';
 import './card.css';
 import Task from './Task';
 
-export default function Card({title, tasks, updateCardTitle, removeCard, addTaskState, updateTask, deleteTask, changeStrikeThrough}) {
-    const [isTitleChanging, setIsTitleChanging] = useState(false);
+export default function Card({
+    cardTitle, taskList, cardId,
+    updateCardTitle, deleteCard,
+    updateTaskTitle, addTask, deleteTask
+}) 
+{
+    const [newCardTitle, setNewCardTitle] = useState('');
+    const [cardTitleChangeBool, setCardTitleChangeBool] = useState(false);
 
-    const [titleChange, setTitleChange] = useState('');
-    
-    const [taskAdd, setTaskAdd] = useState('');
+    const [addTaskTitle, setAddTaskTitle] = useState('')
 
-    const handleSubmit = (e, st, setSt, funct) => {
+    const handleUpdateSubmit = (e) => {
         e.preventDefault();
-        if (st === ''){
+        if (newCardTitle === ''){
             return;
         }
         else{
-           funct(title, st)
-           setSt('')
+           updateCardTitle(cardId, newCardTitle)
+           setCardTitleChangeBool(!cardTitleChangeBool)
+           setNewCardTitle('')
         }
     }
 
+    const handleAddSubmit = (e) => {
+        e.preventDefault();
+        if (addTaskTitle === ''){
+            return;
+        }
+        else{
+           addTask(cardId, addTaskTitle);
+           setAddTaskTitle('');
+        }
+    }
+    // onSubmit={event => handleUpdateSubmit(event)} -> form onSubmit
     return (
         <div className="card">
             <div className="title-div">
-                {isTitleChanging
+                {cardTitleChangeBool
                     ?
-                        <form action="" onSubmit={event => handleSubmit(event, titleChange, setTitleChange, updateCardTitle)}>
+                        <form action="" onSubmit={event => handleUpdateSubmit(event)}>
                             <input 
-                                onChange={event => setTitleChange(event.target.value)}
+                                onChange={event => setNewCardTitle(event.target.value)}
                                 className="update-title" 
-                                type="text" placeholder={title}
+                                type="text"
+                                placeholder={cardTitle}
                             />
                         </form>
                     :
-                        <h3
-                            onClick={() => setIsTitleChanging(!isTitleChanging)}
-                            >
-                            {title}
+                        <h3 onClick={() => setCardTitleChangeBool(!cardTitleChangeBool)}>
+                            {cardTitle}
                         </h3>
                 }
 
             </div>
 
-            {tasks.map(currTask => (
+            {taskList.map(curr => (
                 <Task 
-                    task={currTask}
-                    key={currTask}
-                    updateTask={updateTask}
-                    parentTitle={title} 
+                    key={curr.taskId}
+
+                    // Task Properties
+                    taskTitle={curr.taskTitle}
+                    taskId={curr.taskId}
+                    taskCompleted={curr.completed}
+                    parentId={cardId}
+
+                    // Task Functions
+                    updateTaskTitle={updateTaskTitle}
                     deleteTask={deleteTask}
-                    strike={currTask}
-                    changeStrikeThrough={changeStrikeThrough}
                 />
             ))}
 
-            <form className="add-task" action="input" onSubmit={event => handleSubmit(event, taskAdd, setTaskAdd, addTaskState)}>
-                <input value={taskAdd} type="text" placeholder="Add Task" onChange={event => setTaskAdd(event.target.value)}/> 
+            <form className="add-task" action="input" onSubmit={event => handleAddSubmit(event)}>
+                {/* Value field to reset */}
+                <input type="text" placeholder="Add Task" value={addTaskTitle} onChange={event => setAddTaskTitle(event.target.value)}/> 
                 <button className="add-btn" >+</button>  
             </form>
             
-            <button className="delete-card" onClick={() => removeCard(title)}>Delete</button>
+            <button className="delete-card" onClick={() => deleteCard(cardId)}>Delete</button>
         </div>
     )
 }

@@ -1,127 +1,91 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import nextId from "react-id-generator";
+
 import './App.css';
 import './Components/card.css';
 import Navbar from './Components/Navbar';
 import Card from './Components/Card';
 
 function App() {
-  const [cards, setCards] = useState([
-    {
-      title : 'Update Name',
-      tasks : [['Task 1 (change)', false]]
-    }
-  ]);
+  const [cards, setCards] = useState([]);
+
+  const [tasks, setTasks] = useState([]);
+
+
+  // Cards Call
+  useEffect(() => {
+    fetch('/cards')
+    .then(res => res.json())
+    .then(data => {
+      setCards([...cards, ...data])
+      })
+    }, 
+  []);
+
+  // Tasks Call
+  useEffect(() => {
+    fetch('/tasks')
+    .then(res => res.json())
+    .then(data => {
+      setTasks([...tasks, ...data])
+      })
+    }, 
+  []);
+
 
   // ------ CARD'S STATE ------
   // Update Card Title && Update State
-  const updateCard = (oldName, newName) => {
-    let a = cards.slice();
-    a.forEach(curr => {
-      if (curr.title === oldName){
-        curr.title = newName;
+  const updateCardTitle = (cardId, newName) => {
+    let edit = cards.slice();
+    edit.forEach(currCard => {
+      if (currCard.cardId === cardId){
+        currCard.cardTitle = newName;
       }
-    }) 
-    setCards(a)
+    })
+    setCards(edit);
   }
 
-  // Delete Card
-  const delCard = (toDel) => {
-    let a = cards.slice();
+  const addCard = () => {
+    let nextCard = {
+      cardTitle : `Card ${cards.length + 1} (update)`,
+      cardId : nextId(),
+    };
 
-    a.forEach((curr, index) => {
-      if (curr.title === toDel){
-        a.splice(index, 1)
-      }
-    }) 
-    setCards(a)
+    setCards([...cards, nextCard]);
   }
 
+  const deleteCard = (cardId) => {
+    setTasks(tasks.filter(currTask => currTask.parentCard !== cardId));
+    setCards(cards.filter(currCard => currCard.cardId !== cardId));
+  }
+  
 
   // ------ TASK'S STATE ------
+  const updateTaskTitle = (taskId, newName) => {
+    let edit = tasks.slice();
+    edit.forEach(currTask => {
+      if (currTask.taskId === taskId){
+        currTask.taskTitle = newName
+      }
+    })
+    setTasks(edit);
+  }
+  
+  const addTask = (parentCardId, addedTitle) => {
+    const newTask = {
+        taskTitle : addedTitle,
+        completed: false,
+        parentCard : parentCardId,
+        taskId : nextId(),
+      };
+
+      setTasks([...tasks, newTask]);
+  }
+
+  const deleteTask = (taskId) => {
+    setTasks(tasks.filter(currTask => currTask.taskId !== taskId));
+  }
   // Add Task to Card & Update State
-  const addTask = (card, taskTitle) => {
-    setCards(cards.map(curr => {
-      if (curr.title === card) {
-        return {
-          ...curr,
-          tasks : [...curr.tasks, [taskTitle, false]]
-        }
-      } 
-      return curr
-    }))
-  }
-
-  // Get Help for more improved version of function
-  // Old Update Task --> No Strikthrough
-  // const updateTask = (oldName, strike, newName, cardTitle) => {
-  //   let tempObj = cards.slice();
-  //   tempObj.forEach(currEl => {
-  //     if (currEl.title === cardTitle){
-  //       let copyTasks = currEl.tasks.slice();
-  //       let replace = copyTasks.indexOf([oldName, strike]);
-  //       copyTasks[replace] = [newName, false];
-  //       currEl.tasks = copyTasks
-  //     }
-  //   })
-  //   setCards(tempObj); 
-  // }
-  
-  // New Update Task --> With Strikthrough
-  const updateTask = (taskArr, newName, cardTitle) => {
-    let tempObj = cards.slice();
-    tempObj.forEach(currEl => {
-      if (currEl.title === cardTitle){
-        let copyTasks = currEl.tasks.slice();
-        let targetIndex = -1;
-        copyTasks.forEach((task, index) => {
-          if ((task[0] === taskArr[0]) && (task[1] === taskArr[1])){
-            targetIndex = index;
-          }
-        })
-        copyTasks[targetIndex] = [newName, taskArr[1]];
-        currEl.tasks = copyTasks;
-      }
-    })
-    setCards(tempObj); 
-  }
-
-  
-  const deleteTask = (taskToDel, cardTitle) => {
-    let tempObj = cards.slice();
-    tempObj.forEach(currEl => {
-      if (currEl.title === cardTitle){
-        let copyTasks = currEl.tasks.slice();
-        let targetIndex = -1;
-        copyTasks.forEach((task, index) => {
-          if ((task[0] === taskToDel[0]) && (task[1] === taskToDel[1])){
-            targetIndex = index;
-          }
-        })
-        copyTasks.splice(targetIndex, 1);
-        currEl.tasks = copyTasks;
-      }
-    })
-    setCards(tempObj);
-  }
-
-  const changeStrikeThrough = (taskArr, cardTitle) => {
-    let tempObj = cards.slice();
-    tempObj.forEach(currEl => {
-      if (currEl.title === cardTitle){
-        let copyTasks = currEl.tasks.slice();
-        let targetIndex = -1;
-        copyTasks.forEach((task, index) => {
-          if ((task[0] === taskArr[0]) && (task[1] === taskArr[1])){
-            targetIndex = index;
-          }
-        })
-        copyTasks[targetIndex] = [taskArr[0], !taskArr[1]];
-        console.log(copyTasks[targetIndex]);
-        currEl.tasks = copyTasks;
-      }
-    })
-    setCards(tempObj); 
-  }
 
   // **** UI ****
   return (
@@ -131,35 +95,36 @@ function App() {
       
       {/* CARDS */}
       {cards.map(currCard => (
-        <Card 
-          title={currCard.title}
-          tasks={currCard.tasks}
-          key={currCard.title}
+        <Card
+          key={currCard.cardId}
 
-          // CARD FUNCTIONS
-          updateCardTitle={updateCard}
-          addTaskState={addTask}
-          removeCard={delCard}
+          cardTitle={currCard.cardTitle}
+          taskList={tasks.filter(curr => curr.parentCard === currCard.cardId)}
+          cardId={currCard.cardId}
 
-          // TASK FUNCTIONS
-          updateTask={updateTask}
+          // Card Functions
+          updateCardTitle={updateCardTitle}
+          deleteCard={deleteCard}
+
+          // Task Functions
+          updateTaskTitle={updateTaskTitle}
+          addTask={addTask}
           deleteTask={deleteTask}
-          changeStrikeThrough={changeStrikeThrough}
+          
+
         />
       ))}
 
       {/* NEW CARD */}
-      <button
-        className="new-list"
-        onClick={() => setCards([...cards, {title : `Card ${cards.length + 1}`, tasks : []}])}
-        >New Task
-      </button>
+      <button className="new-list" onClick={() => addCard()}>New Card</button>
 
       {/* TEMP - DELETE */}
       <button onClick={() => {
-        console.log(cards)
-        }}>See State</button>
-
+        console.table(cards)
+        }}>See Cards</button>
+      <button onClick={() => {
+        console.table(tasks)
+        }}>See Tasks</button>
     </div>
     </>
   );
