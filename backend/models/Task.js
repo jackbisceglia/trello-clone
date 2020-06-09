@@ -1,13 +1,13 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../db');
+const Card = require('../models/Card');
 
 const Task = db.define('task', {
     taskTitle: {
         type: Sequelize.STRING
     },
     completed : {
-        type : Sequelize.BOOLEAN,
-        defaultValue : false
+        type : Sequelize.BOOLEAN
     },
     taskId : {
       type: DataTypes.UUID,
@@ -16,5 +16,6 @@ const Task = db.define('task', {
     }
 });
 
+Task.belongsTo(Card)
 
 module.exports = Task;

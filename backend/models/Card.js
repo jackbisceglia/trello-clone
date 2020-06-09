@@ -15,13 +15,8 @@ const Card = db.define('card', {
   });
 
 Card.hasMany(Task, {
-  foreignKey: "cardId",
-  as : 'tasks'
-});
+  foreignKey: 'cardId'
+})
 
-Task.belongsTo(Card, {
-    targetKey: "cardId",
-  });
+module.exports = Card;
 
-
-module.exports = {Card, Task};

@@ -4,7 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon"
+    "start": "nodemon",
+    "card": "node scripts/c.js",
+    "task": "node scripts/t.js",
+    "end": "node scripts/clearTables.js"
   },
   "author": "Jack Bisceglia",
   "license": "ISC",
