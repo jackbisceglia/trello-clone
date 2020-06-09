@@ -14,7 +14,7 @@ function App() {
 
   // Cards Call
   useEffect(() => {
-    fetch('/api/cards/')
+    fetch('/cards/')
     .then(res => res.json())
     .then(data => {
       setCards([...cards, ...data])
