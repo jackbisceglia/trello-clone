@@ -15,6 +15,9 @@ app.get('/', (req, res) => res.send("Home Page is running"));
 // Card Routes
 app.use('/cards', require('./routes/cardsRoute'))
 
+// Task Routes
+app.use('/tasks', require('./routes/tasksRoute'))
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT);
