@@ -1,6 +1,8 @@
 .card {
-    margin: 20px;
-    border-radius: 0.5rem;
+    margin-top: 1.25rem;
+    margin-right: .8rem;
+    margin-left: .8rem;
+    border-radius: 0.3rem;
     height: auto;
     width: 16rem;
     background-color: rgb(217, 223, 233);

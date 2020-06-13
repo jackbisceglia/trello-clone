@@ -5,7 +5,7 @@ import Task from './Task';
 export default function Card({
     cardTitle, taskList, cardId,
     updateCardTitle, deleteCard,
-    updateTaskTitle, addTask, deleteTask
+    updateTaskTitle, addTask, deleteTask, strikeTask
 }) 
 {
     const [newCardTitle, setNewCardTitle] = useState('');
@@ -59,17 +59,18 @@ export default function Card({
 
             {taskList.map(curr => (
                 <Task 
-                    key={curr.taskId}
+                    key={curr.taskid}
 
                     // Task Properties
-                    taskTitle={curr.taskTitle}
-                    taskId={curr.taskId}
+                    taskTitle={curr.tasktitle}
+                    taskId={curr.taskid}
                     taskCompleted={curr.completed}
                     parentId={cardId}
 
                     // Task Functions
                     updateTaskTitle={updateTaskTitle}
                     deleteTask={deleteTask}
+                    strikeTask={strikeTask}
                 />
             ))}
 

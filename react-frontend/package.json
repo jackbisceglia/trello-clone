@@ -13,7 +13,8 @@
     "react-dnd-html5-backend": "^10.0.2",
     "react-dom": "^16.13.1",
     "react-id-generator": "^3.0.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "uuid": "^8.1.0"
   },
   "scripts": {
     "predeploy": "npm run build",

@@ -13,11 +13,11 @@ app.use(express.json());
 // ----- CRUD TASKS ----- 
 app.post('/tasks', async (req, res) => {
     try {
-        const {taskTitle, taskId, completed, parentId} = req.body;
+        const {tasktitle, taskid, completed, parentid} = req.body;
 
         const newTask = await pool.query(
             "INSERT INTO task (taskId, taskTitle, completed, parentId) VALUES($1, $2, $3, $4) RETURNING *",
-            [taskId, taskTitle, completed, parentId]
+            [taskid, tasktitle, completed, parentid]
         );
         
         res.json(newTask.rows[0]);
@@ -31,7 +31,7 @@ app.post('/tasks', async (req, res) => {
 app.get('/tasks', async (req, res) => {
     try {
         const allTasks = await pool.query(
-            "SELECT * FROM Task"
+            "SELECT * FROM Task ORDER BY order_id"
         )
         res.json(allTasks.rows);
     } 
@@ -61,11 +61,26 @@ app.get("/tasks/:target", async (req, res) => {
 app.put("/tasks/:target", async (req, res) => {
     try {
         const {target} = req.params;
-        const {taskTitle} = req.body;
+        const {tasktitle} = req.body;
 
         const updateTask = await pool.query(
             "UPDATE Task SET taskTitle = $1 WHERE taskId = $2",
-            [taskTitle, target]
+            [tasktitle, target]
+        );
+        res.json("Todo updated")
+    }
+    catch (error) {
+        console.error(error);    
+    }
+});
+
+app.put("/tasks/completed/:target", async (req, res) => {
+    try {
+        const {target} = req.params;
+
+        const updateTask = await pool.query(
+            "UPDATE Task SET completed = NOT completed WHERE taskId = $1",
+            [target]
         );
         res.json("Todo updated")
     }
@@ -111,7 +126,7 @@ app.post('/cards', async (req, res) => {
 app.get('/cards', async (req, res) => {
     try {
         const allCards = await pool.query(
-            "SELECT * FROM card"
+            "SELECT * FROM card ORDER BY order_id"
         )
         res.json(allCards.rows);
     } 
@@ -147,7 +162,27 @@ app.put("/cards/:target", async (req, res) => {
             "UPDATE card SET cardTitle = $1 WHERE cardId = $2",
             [cardTitle, target]
         );
-        res.json("Todo updated")
+        res.json("Card updated");
+        console.log(req.body);
+    }
+    catch (error) {
+        console.error(error);    
+    }
+});
+
+app.delete("/cards/:target", async (req, res) => {
+    try {
+        const {target} = req.params;
+
+        const deleteCard = await pool.query(
+            "DELETE FROM Card WHERE cardid = $1",
+            [target]
+        );
+        const allTasks = await pool.query(
+            "DELETE FROM Task WHERE parentid = $1",
+            [target]
+        );
+        res.json("Card deleted");
     }
     catch (error) {
         console.error(error);    

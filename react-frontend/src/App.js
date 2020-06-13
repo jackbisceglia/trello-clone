@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import nextId from "react-id-generator";
+import { v4 as uuidv4 } from 'uuid';
 
 import './App.css';
 import './Components/card.css';
@@ -14,11 +14,11 @@ function App() {
 
   // Cards Call
   useEffect(() => {
-    fetch('/cards/')
+    fetch('/cards')
     .then(res => res.json())
     .then(data => {
-      setCards([...cards, ...data])
-      })
+      setCards([...cards, ...data]);
+    })
     }, 
   []);
 
@@ -27,7 +27,7 @@ function App() {
     fetch('/tasks')
     .then(res => res.json())
     .then(data => {
-      setTasks([...tasks, ...data])
+      setTasks([...tasks, ...data]);
       })
     }, 
   []);
@@ -37,26 +37,55 @@ function App() {
   // Update Card Title && Update State
   const updateCardTitle = (cardId, newName) => {
     let edit = cards.slice();
+    console.log(edit);
     edit.forEach(currCard => {
-      if (currCard.cardId === cardId){
-        currCard.cardTitle = newName;
+      if (currCard.cardid === cardId){
+        console.log(currCard.cardTitle)
+        currCard.cardtitle = newName;
       }
     })
     setCards(edit);
+
+    fetch(`/cards/${cardId}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        cardTitle: newName
+      })
+    });
   }
 
   const addCard = () => {
     let nextCard = {
-      cardTitle : `Card ${cards.length + 1} (update)`,
-      cardId : nextId(),
+      cardtitle : `New Card (Update)`,
+      cardid : uuidv4(),
     };
 
     setCards([...cards, nextCard]);
+
+    fetch(`/cards`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        cardId: nextCard.cardid,
+        cardTitle: nextCard.cardtitle
+      })
+    });
   }
 
   const deleteCard = (cardId) => {
-    setTasks(tasks.filter(currTask => currTask.parentCard !== cardId));
-    setCards(cards.filter(currCard => currCard.cardId !== cardId));
+    setTasks(tasks.filter(currTask => currTask.parentid !== cardId));
+    setCards(cards.filter(currCard => currCard.cardid !== cardId));
+
+    fetch(`/cards/${cardId}`, {
+      method: 'DELETE'
+      });
   }
   
 
@@ -64,28 +93,75 @@ function App() {
   const updateTaskTitle = (taskId, newName) => {
     let edit = tasks.slice();
     edit.forEach(currTask => {
-      if (currTask.taskId === taskId){
-        currTask.taskTitle = newName
+      if (currTask.taskid === taskId){
+        currTask.tasktitle = newName
       }
     })
     setTasks(edit);
+
+    fetch(`/tasks/${taskId}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        tasktitle: newName
+      })
+    });
   }
-  
+
+  // Add Task to Card & Update State
   const addTask = (parentCardId, addedTitle) => {
     const newTask = {
-        taskTitle : addedTitle,
+        taskid : uuidv4(),
+        tasktitle : addedTitle,
         completed: false,
-        parentCard : parentCardId,
-        taskId : nextId(),
+        parentid : parentCardId,
       };
 
       setTasks([...tasks, newTask]);
+
+      fetch(`/tasks`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTask)
+      });
   }
 
   const deleteTask = (taskId) => {
-    setTasks(tasks.filter(currTask => currTask.taskId !== taskId));
+    setTasks(tasks.filter(currTask => currTask.taskid !== taskId));
+
+    fetch(`/tasks/${taskId}`, {
+      method: 'DELETE'
+      });
   }
-  // Add Task to Card & Update State
+
+  const strikeTask = (taskId) => {
+    let edit = tasks.slice();
+    edit.forEach(currTask => {
+      if (currTask.taskid === taskId){
+        let isStruck = currTask.completed;
+        currTask.completed = !isStruck;
+
+        fetch(`/tasks/completed/${taskId}`, {
+          method: 'PUT',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          }
+        });
+      }
+    })
+    setTasks(edit);
+
+  }
+
+
+
 
   // **** UI ****
   return (
@@ -96,11 +172,11 @@ function App() {
       {/* CARDS */}
       {cards.map(currCard => (
         <Card
-          key={currCard.cardId}
+          key={currCard.cardid}
 
-          cardTitle={currCard.cardTitle}
-          taskList={tasks.filter(curr => curr.parentCard === currCard.cardId)}
-          cardId={currCard.cardId}
+          cardTitle={currCard.cardtitle}
+          taskList={tasks.filter(curr => curr.parentid === currCard.cardid)}
+          cardId={currCard.cardid}
 
           // Card Functions
           updateCardTitle={updateCardTitle}
@@ -110,21 +186,22 @@ function App() {
           updateTaskTitle={updateTaskTitle}
           addTask={addTask}
           deleteTask={deleteTask}
+          strikeTask={strikeTask}
           
 
         />
       ))}
 
       {/* NEW CARD */}
-      <button className="new-list" onClick={() => addCard()}>New Card</button>
-
+      <button className="new-list" onClick={() => addCard()}>+</button>
+      <div className="padding-div"></div>
       {/* TEMP - DELETE */}
-      <button onClick={() => {
+      {/* <button onClick={() => {
         console.table(cards)
         }}>See Cards</button>
       <button onClick={() => {
         console.table(tasks)
-        }}>See Tasks</button>
+        }}>See Tasks</button> */}
     </div>
     </>
   );

@@ -3,7 +3,7 @@
     min-height: 2.5rem;
     background-color: rgb(243, 243, 243);
     margin: 6px 0;
-    border-radius: .25rem;
+    border-radius: .3rem;
     box-shadow: 0 2px 1px rgba(0, 0, 0, .15);
     display: flex;
     justify-content: space-between;
@@ -13,11 +13,11 @@
 .title {
     text-align: left;
     width: auto;
-    max-width: 35%;
-    line-height: 1rem;
+    max-width: 75%;
+    line-height: 1.1rem;
     cursor: pointer;
-    margin: 0.5rem 15px;
-    font-size: .95rem;
+    margin: 0.25rem .9rem;
+    font-size: .9rem;
     font-weight: 500;
 }
 

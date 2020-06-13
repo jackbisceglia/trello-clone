@@ -3,7 +3,7 @@ import './task.css';
 
 export default function Task({
     taskTitle, taskId, taskCompleted, parentId, 
-    updateTaskTitle, deleteTask
+    updateTaskTitle, deleteTask, strikeTask
 }) 
 {
     const [newTaskTitle, setNewTaskTitle] = useState('');
@@ -23,6 +23,10 @@ export default function Task({
         }
     }
 
+    const handleStrike = () => {
+        strikeTask(taskId);
+        setIsCompleted(!isCompleted);
+    }
 
     
     return (
@@ -41,7 +45,7 @@ export default function Task({
                 :
                     <>
                     <p 
-                        onClick={() => setIsCompleted(!isCompleted)}
+                        onClick={() => handleStrike(taskId)}
                         className="title"
                         style={isCompleted ? {textDecoration: 'line-through', textDecorationWidth: '100px', textDecorationThickness: '100px', fontStyle: 'italic'} : {textDecoration: 'none',}}> 
                         {taskTitle} 
