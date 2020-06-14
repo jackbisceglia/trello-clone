@@ -37,7 +37,6 @@ function Trello() {
   // Update Card Title && Update State
   const updateCardTitle = (cardId, newName) => {
     let edit = cards.slice();
-    console.log(edit);
     edit.forEach(currCard => {
       if (currCard.cardid === cardId){
         console.log(currCard.cardTitle)

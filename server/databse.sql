@@ -8,7 +8,14 @@ CREATE TABLE task(
     ord_no INTEGER PRIMARY KEY
 );
 
-CREATE TABLE card(
-    cardId VARCHAR(255) NOT NULL,
-    cardTitle VARCHAR(255)
+CREATE TABLE users(
+    tableid SERIAL PRIMARY KEY,
+    userid VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    pass VARCHAR(255)
 );
+
+SELECT id 
+  FROM users
+ WHERE email = 'jbisceglia2000@gmail.com' 
+   AND password = crypt('pass', password);

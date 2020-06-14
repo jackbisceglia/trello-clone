@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
+const { v4: uuidv4 } = require('uuid');
+const e = require('express');
 
 const app = express();
 
@@ -189,7 +191,68 @@ app.delete("/cards/:target", async (req, res) => {
     }
 });
 
+// Login Routes
+app.post('/login', async (req, res) => {
+    try {
+        const {email, pass} = req.body;
 
+        const queryResponse = await pool.query(
+            "SELECT userid, email FROM users WHERE email = $1 AND pass = crypt($2, pass);",
+            [email, pass]
+        );
+
+
+        if (queryResponse.rows.length === 0){
+            res.json({
+                success : false,
+                userid : queryResponse.rows[0],
+                useremail : queryResponse.rows[1]
+            })
+        }
+        else{
+            res.json({
+                success : true,
+                info : queryResponse.rows,
+            })
+        }
+
+        res.json({
+            success : wasSuccess,
+            info : queryResponse.rows,
+        })
+    }
+    catch (error) {
+      console.error(error.message)
+    }
+});
+
+app.post('/signup', async (req, res) => {
+    try {
+        const {email, pass, passConfirm} = req.body;
+
+        if (pass === passConfirm){
+            const queryResponse = await pool.query(
+                "INSERT INTO users (email, pass, userid) VALUES ($1, crypt($2, gen_salt('bf')), $3);",
+                [email, pass, uuidv4()]
+            );
+
+            res.json({
+                success : true
+            })
+
+        }
+        else {
+            res.json({
+                success: false
+            })
+        }
+
+
+    }
+    catch (error) {
+      console.error(error.message)
+    }
+});
 // SERVER LISTEN/START
 app.listen(5000, () => {
     console.log("Server has started");

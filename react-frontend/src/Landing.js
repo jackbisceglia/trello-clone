@@ -24,11 +24,32 @@ const modalStyles = {
 Modal.setAppElement('#root')
 
 export default function Landing({history}) {
-
+    const [signUpEmail, setSignUpEmail] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
 
     const closeModal = () => {
         setModalOpen(false)
+    }
+
+    const handleSignUp = (e) => {
+        e.preventDefault();
+        fetch(`/signup`, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email : signUpEmail,
+                pass : 'testpass',
+                passConfirm : 'testpass'
+            })
+          }).then(res => res.json())
+          .then(data => {
+              if (data.success){
+                history.push("/home")
+              }
+          });
     }
 
     return (
@@ -40,8 +61,8 @@ export default function Landing({history}) {
                 contentLabel="Example Modal"
                 >
                 <h1 style={{textAlign: 'center', fontSize: '1.5rem'}}>Sign Up for Trello Clone!</h1>
-                <form action="" className="sign-up">
-                    <input type="email" placeholder="Email Address"/>
+                <form action="" className="sign-up" onSubmit={(event) => handleSignUp(event)}>
+                    <input type="email" placeholder="Email Address" onChange={event => setSignUpEmail(event.target.value)}/>
                     <input type="password" placeholder="Password"/>
                     <input type="password" placeholder="Confirm Password"/>
                     <button className="button sign-up-btn">Sign Up!</button>
