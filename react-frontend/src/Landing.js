@@ -41,9 +41,9 @@ export default function Landing({history}) {
                 >
                 <h1 style={{textAlign: 'center', fontSize: '1.5rem'}}>Sign Up for Trello Clone!</h1>
                 <form action="" className="sign-up">
-                    <input type="text" placeholder="Email Address"/>
-                    <input type="text" placeholder="Password"/>
-                    <input type="text" placeholder="Confirm Password"/>
+                    <input type="email" placeholder="Email Address"/>
+                    <input type="password" placeholder="Password"/>
+                    <input type="password" placeholder="Confirm Password"/>
                     <button className="button sign-up-btn">Sign Up!</button>
                 </form>
             </Modal>
@@ -58,12 +58,12 @@ export default function Landing({history}) {
             </div>
             <div className="login">
                 <div className="login-box">
-                    <h1 className="title">Login</h1>
+                    <h1 className="title1">Login</h1>
                     <form className="login-form" action="" onSubmit={() => {
                         history.push("/home")
                     }}>
-                        <input type="text" placeholder="Email address" className="inputBox"/>
-                        <input type="text" placeholder="Password" className="inputBox"/>
+                        <input type="email" placeholder="Email address" className="inputBox"/>
+                        <input type="password" placeholder="Password" className="inputBox"/>
                         <button className="button">Login</button>
                     </form>
                     <p className="else" onClick={() => {

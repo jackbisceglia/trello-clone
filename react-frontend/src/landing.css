@@ -41,7 +41,7 @@
     align-items: center;
 }
 
-.title  {
+.title1  {
     color: white;
     text-align: center;
     margin: 1rem 0;
@@ -74,7 +74,7 @@
     margin: .75rem 0;
     width: 30%;
     height: 1.5rem;
-    background-color: white;
+    background-color: #CAE2EA;
     border-style: none;
     border-radius: .2rem;
     transition: .25s;
