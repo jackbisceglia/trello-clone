@@ -204,22 +204,16 @@ app.post('/login', async (req, res) => {
 
         if (queryResponse.rows.length === 0){
             res.json({
-                success : false,
-                userid : queryResponse.rows[0],
-                useremail : queryResponse.rows[1]
+                success : false
             })
         }
         else{
             res.json({
                 success : true,
-                info : queryResponse.rows,
+                userid : queryResponse.rows[0],
+                useremail : queryResponse.rows[1]
             })
         }
-
-        res.json({
-            success : wasSuccess,
-            info : queryResponse.rows,
-        })
     }
     catch (error) {
       console.error(error.message)
