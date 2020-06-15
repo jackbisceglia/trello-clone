@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
 import Modal from 'react-modal';
+import auth from './auth';
 
 import './App.css';
 import './landing.css';
+import { UserContext } from './userContext';
 
 const modalStyles = {
     content : {
         width                 : '30%',
-        height                 : '50%',
+        height                 : '55%',
         top                   : '50%',
         left                  : '50%',
         right                 : 'auto',
@@ -23,7 +24,7 @@ const modalStyles = {
 
 Modal.setAppElement('#root')
 
-export default function Landing({history}) {
+export default function Landing({history }) {
     // Sign Up Hooks
     const [signUpEmail, setSignUpEmail] = useState('');
     const [signUpPass, setSignUpPass] = useState('');
@@ -36,13 +37,23 @@ export default function Landing({history}) {
     // Modal State
     const [modalOpen, setModalOpen] = useState(false);
 
+    // Auth
+    const [signUpSent, setSignUpSent] = useState(false);
+    const [accountMade,  setAccountMade] = useState(false); 
+    const [passesMatch, setPassesMatch] = useState(true);
     const [loginFailed, setLoginFailed] = useState(false);
 
+    const {userId, setUserId} = useContext(UserContext);
+
     const closeModal = () => {
-        setModalOpen(false)
+        setModalOpen(false);
+        setAccountMade(false);
+        setPassesMatch(true);
+        setLoginFailed(false);
     }
 
     const handleSignUp = (e) => {
+        e.preventDefault();
         fetch(`/signup`, {
             method: 'POST',
             headers: {
@@ -54,13 +65,21 @@ export default function Landing({history}) {
                 pass : signUpPass,
                 passConfirm : signUpPassConf
             })
-          }).then(res => res.json())
+          })
+          .then(res => res.json())
           .then(data => {
-              if (data.success){
-                history.push("/")
-              }
+            setSignUpSent(true);
+            if (data.success){
+                setAccountMade(true);
+            }
+            else if (data.passMatch){
+                setAccountMade(false);
+                setPassesMatch(false);
+            }
           });
     }
+
+    const test = useContext(UserContext);
     
     const handleLogin = (e) => {
         e.preventDefault();
@@ -76,9 +95,10 @@ export default function Landing({history}) {
             })
           }).then(res => res.json())
           .then(data => {
-              console.log(data);
               if (data.success){
-                history.push("/home")
+                console.log(data);
+                setUserId(data.userid);
+                history.push("/home/")
               }
               else{
                   setLoginFailed(true)
@@ -101,6 +121,19 @@ export default function Landing({history}) {
                     <input type="password" placeholder="Confirm Password" onChange={event => setSignUpPassConf(event.target.value)}/>
                     <button className="button sign-up-btn">Sign Up!</button>
                 </form>
+
+                {signUpSent && !accountMade && passesMatch
+                    ?
+                    <p style={{color: 'red', margin: '.25rem 0'}}>Passwords don't match</p>
+                    :
+                    <div style={{display: 'none'}}></div>
+                }
+                {signUpSent && accountMade
+                    ?
+                    <p style={{color: 'green', margin: '0'}}>You're signed up! Login Now</p>
+                    :
+                    <div style={{display: 'none'}}></div>
+                }
             </Modal>
 
 
@@ -116,7 +149,9 @@ export default function Landing({history}) {
 
                     <h1 className="title1">Login</h1>
 
-                    <form className="login-form" action="" onSubmit={(event) => handleLogin(event)}>
+                    <form className="login-form" action="" onSubmit={(event) => {
+                        auth.login(() => handleLogin(event));
+                    }}>
                         <input type="email" placeholder="Email address" className="inputBox" onChange={event => setLoginEmail(event.target.value)}/>
                         <input type="password" placeholder="Password" className="inputBox" onChange={event => setLoginPass(event.target.value)}/>
                         <button className="button">Login</button>

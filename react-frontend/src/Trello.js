@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
+import { UserContext } from './userContext';
 import { v4 as uuidv4 } from 'uuid';
 
 import './App.css';
@@ -6,11 +7,12 @@ import './Components/card.css';
 import Navbar from './Components/Navbar';
 import Card from './Components/Card';
 
-function Trello() {
+function Trello({ }) {
   const [cards, setCards] = useState([]);
 
   const [tasks, setTasks] = useState([]);
 
+  const {userId, setUserId} = useContext(UserContext);
 
   // Cards Call
   useEffect(() => {
@@ -31,7 +33,6 @@ function Trello() {
       })
     }, 
   []);
-
 
   // ------ CARD'S STATE ------
   // Update Card Title && Update State
@@ -73,7 +74,8 @@ function Trello() {
       },
       body: JSON.stringify({
         cardId: nextCard.cardid,
-        cardTitle: nextCard.cardtitle
+        cardTitle: nextCard.cardtitle,
+        user_id : userId
       })
     });
   }
@@ -87,7 +89,6 @@ function Trello() {
       });
   }
   
-
   // ------ TASK'S STATE ------
   const updateTaskTitle = (taskId, newName) => {
     let edit = tasks.slice();
@@ -159,15 +160,11 @@ function Trello() {
 
   }
 
-
-
-
   // **** UI ****
   return (
     <>
     <Navbar /> 
     <div className="contain">
-      
       {/* CARDS */}
       {cards.map(currCard => (
         <Card

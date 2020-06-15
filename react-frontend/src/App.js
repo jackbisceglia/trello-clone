@@ -1,23 +1,25 @@
 import React, {useState, useEffect} from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { BrowserRouter, Route, Switch} from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute.js';
+import { UserContext } from './userContext'
 
 import './App.css';
 import './Components/card.css';
-import Navbar from './Components/Navbar';
-import Card from './Components/Card';
 import Trello from './Trello';
 import Landing from './Landing';
 
-function App() {
+function App( {history} ) {
+  const [userId, setUserId] = useState("Default Value");
 
   return (
+    <UserContext.Provider value={{userId, setUserId}}>
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact component={Landing}/>
-        <Route path="/home" exact component={Trello}/>
+          <Route path="/" exact component={Landing}/>
+          <ProtectedRoute path="/home" component={Trello}/>
       </Switch>
     </BrowserRouter>
+    </UserContext.Provider>
   );
 }
 

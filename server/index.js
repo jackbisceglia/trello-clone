@@ -110,11 +110,11 @@ app.delete("/tasks/:target", async (req, res) => {
 // ----- CRUD CARDS ----- 
 app.post('/cards', async (req, res) => {
     try {
-        const {cardTitle, cardId} = req.body;
+        const {cardTitle, cardId, user_id} = req.body;
 
         const newCard = await pool.query(
-            "INSERT INTO card (cardId, cardTitle) VALUES($1, $2) RETURNING *",
-            [cardId, cardTitle]
+            "INSERT INTO card (cardId, cardTitle, user_id) VALUES($1, $2, $3) RETURNING *",
+            [cardId, cardTitle, user_id]
         );
         
         res.json(newCard.rows[0]);
@@ -125,10 +125,12 @@ app.post('/cards', async (req, res) => {
 });
 
 // All
-app.get('/cards', async (req, res) => {
+app.get('/cards/:user_id', async (req, res) => {
+    const { user_id } = req.params;
+
     try {
         const allCards = await pool.query(
-            "SELECT * FROM card ORDER BY order_id"
+            "SELECT * FROM card WHERE user_id = $1 ORDER BY order_id", [user_id]
         )
         res.json(allCards.rows);
     } 
@@ -210,8 +212,8 @@ app.post('/login', async (req, res) => {
         else{
             res.json({
                 success : true,
-                userid : queryResponse.rows[0],
-                useremail : queryResponse.rows[1]
+                email : queryResponse.rows[0].email,
+                userid : queryResponse.rows[0].userid
             })
         }
     }
@@ -231,17 +233,17 @@ app.post('/signup', async (req, res) => {
             );
 
             res.json({
-                success : true
+                success : true,
+                passMatch : true
             })
 
         }
-        else {
+        else if (pass !== passConfirm) {
             res.json({
-                success: false
+                success: false,
+                passMatch : false
             })
         }
-
-
     }
     catch (error) {
       console.error(error.message)
