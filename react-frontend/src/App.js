@@ -16,7 +16,7 @@ function App( {history} ) {
     <BrowserRouter>
       <Switch>
           <Route path="/" exact component={Landing}/>
-          <ProtectedRoute path="/home" component={Trello}/>
+          <ProtectedRoute path="/home" exact component={Trello}/>
       </Switch>
     </BrowserRouter>
     </UserContext.Provider>

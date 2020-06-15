@@ -14,11 +14,13 @@ function Trello({ }) {
 
   const {userId, setUserId} = useContext(UserContext);
 
+  console.log(userId);
   // Cards Call
   useEffect(() => {
-    fetch('/cards')
+    fetch('/cards/'+userId)
     .then(res => res.json())
     .then(data => {
+      console.log(data);
       setCards([...cards, ...data]);
     })
     }, 

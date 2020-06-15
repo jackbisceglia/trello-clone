@@ -5,7 +5,7 @@ import auth from './auth'
 export default function ProtectedRoute({component: Component, ...rest}) {
     return (
         <Route {...rest} render={(props) => {
-            if(auth.isAuthed){
+            if(auth.isAuthed()){
                 return <Component {...props}/>
             }
             else{
