@@ -1,11 +1,19 @@
+// Packages
 import React, {useState, useEffect, useContext} from 'react';
-import { UserContext } from './userContext';
 import { v4 as uuidv4 } from 'uuid';
+import { withCookies } from 'react-cookie';
 
-import './App.css';
-import './Components/card.css';
+// Context API
+import { UserContext } from './userContext';
+import { AuthContext } from './authContext';
+
+// Child Components
 import Navbar from './Components/Navbar';
 import Card from './Components/Card';
+
+// CSS Imports
+import './App.css';
+import './Components/card.css';
 
 function Trello({ }) {
   const [cards, setCards] = useState([]);
@@ -13,6 +21,7 @@ function Trello({ }) {
   const [tasks, setTasks] = useState([]);
 
   const {userId, setUserId} = useContext(UserContext);
+  const {authed, setAuthed} = useContext(AuthContext);
 
   console.log(userId);
   // Cards Call

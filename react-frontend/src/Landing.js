@@ -1,10 +1,22 @@
+// Packages
 import React, { useState, useContext } from 'react';
 import Modal from 'react-modal';
-import auth from './auth';
+import { withCookies } from 'react-cookie';
+
+// Context API
+import { UserContext } from './userContext';
+import { AuthContext } from './authContext';
+
+// CSS Imports
+
+
+
+
+
 
 import './App.css';
 import './landing.css';
-import { UserContext } from './userContext';
+
 
 const modalStyles = {
     content : {
@@ -24,7 +36,60 @@ const modalStyles = {
 
 Modal.setAppElement('#root')
 
-export default function Landing({history }) {
+const isLetter = (character) => {
+    return character.toUpperCase() != character.toLowerCase();
+}
+
+const isNumber = (character) => {
+    if (character >= '0' && character <= '9') {
+        return true;
+    }
+    else {
+        return  false;
+    }
+}
+
+const isCap = (character) => {
+    if (!isLetter(character)){
+        return false;
+    }
+    else{
+        if (character.toUpperCase() === character){
+            return true
+        }
+        else {
+            return false
+        }
+    }
+}
+
+const isValidPass = (currPass) => {
+    let hasNumber = false;
+    let hasCapLetter = false;
+    let isLongEnough = false;
+
+    if (currPass.length >= 5) {
+        isLongEnough = true;
+    }
+
+    for (let i = 0; i < currPass.length; i++) {
+        if (isCap(currPass.charAt(i))){
+            hasCapLetter = true;
+        }
+        else if (isNumber(currPass.charAt(i))){
+            hasNumber = true;
+        }
+
+        if (hasNumber && hasCapLetter && isLongEnough){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+export default function Landing({ history }) {
     // Sign Up Hooks
     const [signUpEmail, setSignUpEmail] = useState('');
     const [signUpPass, setSignUpPass] = useState('');
@@ -41,9 +106,13 @@ export default function Landing({history }) {
     const [signUpSent, setSignUpSent] = useState(false);
     const [accountMade,  setAccountMade] = useState(false); 
     const [passesMatch, setPassesMatch] = useState(true);
+    const [passesMatchFrontend, setPassesMatchFrontend] = useState(false);
     const [loginFailed, setLoginFailed] = useState(false);
 
+    const [validPass, setValidPass] = useState(false);
+
     const {userId, setUserId} = useContext(UserContext);
+    const {authed, setAuthed} = useContext(AuthContext);
 
     const closeModal = () => {
         setModalOpen(false);
@@ -96,7 +165,7 @@ export default function Landing({history }) {
           }).then(res => res.json())
           .then(data => {
               if (data.success){
-                console.log(data);
+                setAuthed(true);
                 setUserId(data.userid);
                 history.push("/home/")
               }
@@ -117,8 +186,31 @@ export default function Landing({history }) {
                 <h1 style={{textAlign: 'center', fontSize: '1.5rem'}}>Sign Up for Trello Clone!</h1>
                 <form action="" className="sign-up" onSubmit={(event) => handleSignUp(event)}>
                     <input type="email" placeholder="Email Address" onChange={event => setSignUpEmail(event.target.value)}/>
-                    <input type="password" placeholder="Password" onChange={event => setSignUpPass(event.target.value)}/>
-                    <input type="password" placeholder="Confirm Password" onChange={event => setSignUpPassConf(event.target.value)}/>
+                    <input 
+                        type="password"
+                        placeholder="Password"
+                        style={validPass ? {borderBottom: '1px solid green'} : {borderBottom: '1px solid red'}}
+                        onChange={event => {
+                            setSignUpPass(event.target.value);
+                            isValidPass(event.target.value) ? setValidPass(true) : setValidPass(false);
+                        }}/>
+                    <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        style={passesMatchFrontend ? {borderBottom: '1px solid green'} : {borderBottom: '1px solid red'}} 
+                        onChange={event => {
+                            setSignUpPassConf(event.target.value);
+                            console.log(event.target.value);
+                            console.log(signUpPass);
+                            console.log(passesMatchFrontend);
+                            if(event.target.value === signUpPass){
+                                setPassesMatchFrontend(true);
+                            }
+                            else {
+                                setPassesMatchFrontend(false);
+                            }
+                        }
+                    }/>
                     <button className="button sign-up-btn">Sign Up!</button>
                 </form>
 
@@ -149,9 +241,7 @@ export default function Landing({history }) {
 
                     <h1 className="title1">Login</h1>
 
-                    <form className="login-form" action="" onSubmit={(event) => {
-                        auth.login(() => handleLogin(event));
-                    }}>
+                    <form className="login-form" action="" onSubmit={(event) => handleLogin(event)}>
                         <input type="email" placeholder="Email address" className="inputBox" onChange={event => setLoginEmail(event.target.value)}/>
                         <input type="password" placeholder="Password" className="inputBox" onChange={event => setLoginPass(event.target.value)}/>
                         <button className="button">Login</button>

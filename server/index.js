@@ -11,6 +11,18 @@ app.use(cors());
 app.use(express.json());
 
 // ROUTES
+// ---- AUTH ----
+// app.get('/isAuth', async (req, res) => {
+//     try {
+//         const isLoggedIn = await pool.query(
+//             "SELECT  FROM Task ORDER BY order_id"
+//         )
+//         res.json(allTasks.rows);
+//     } 
+//     catch (error) {
+//       console.error(error.message)  
+//     }
+// });
 
 // ----- CRUD TASKS ----- 
 app.post('/tasks', async (req, res) => {
