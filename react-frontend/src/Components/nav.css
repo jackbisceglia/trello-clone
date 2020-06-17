@@ -3,6 +3,8 @@
     height: 7.5vh;
     background-color: #07B4EE;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .bar h1 {
@@ -10,6 +12,34 @@
     font-size: 1.5em;
     font-weight: 600;
     align-self: center;
-    margin-left: 25px;
+    margin: 0 1.5rem;
     cursor: default;
+}
+
+.signout {
+    margin: 0 2.5rem;
+    cursor: pointer;
+    height: 1.5rem;
+    width: 4.5rem;
+    background-color: transparent;
+    border: .1rem solid #123753;
+    border-radius: .2rem;
+    transition: .5s;
+    font-size: .8rem;
+    font-weight: 500;
+    color: #123753;
+}
+
+.signout:hover {
+    margin: 0 2.5rem;
+    cursor: pointer;
+    height: 1.5rem;
+    width: 4.5rem;
+    background-color: #123753;
+    border: .1rem solid #123753;
+    border-radius: .2rem;
+    transition: .25s;
+    font-size: .8rem;
+    font-weight: 500;
+    color: #07B4EE;
 }

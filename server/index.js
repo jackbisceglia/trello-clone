@@ -1,28 +1,79 @@
+// Server Packages
 const express = require('express');
 const cors = require('cors');
-const pool = require('./db');
-const { v4: uuidv4 } = require('uuid');
-const e = require('express');
 
+// DATABASE
+const pool = require('./db');
+ 
+// Session Packages
+const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
+
+// Other Packages
+const { v4: uuidv4 } = require('uuid');
+
+// Initialize App
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(session({
+        store: new pgSession({
+            pool : pool,
+            tableName : 'user_sessions'
+        }),
+        secret : 'some secret',
+        resave : false,
+        saveUninitialized : true,
+        cookie : {
+            maxAge : 1000 * 60 * 60 * 24
+        }
+        
+    }
+));
 
 // ROUTES
-// ---- AUTH ----
-// app.get('/isAuth', async (req, res) => {
-//     try {
-//         const isLoggedIn = await pool.query(
-//             "SELECT  FROM Task ORDER BY order_id"
-//         )
-//         res.json(allTasks.rows);
-//     } 
-//     catch (error) {
-//       console.error(error.message)  
-//     }
-// });
+// ---- AUTH ROUTES ----
+app.get('/active', async (req, res, next) => {
+    try {
+        const user_id = req.session.user_id;
+        const userMatch = await pool.query(
+            "SELECT userid FROM users WHERE userid = $1",
+            [user_id]
+        );
+        
+        if (userMatch.rows.length){
+            res.json({
+                sessionActive : true,
+                userId : user_id
+            })
+        }
+        else {
+            res.json({
+                sessionActive : false,
+                userId : null
+            })  
+        }
+    }
+    catch (error) {
+      console.error(error.message)
+    }
+})
+
+
+app.delete('/signout', function(req, res) {
+    req.session.destroy((err) => {
+       if(err){
+          console.log(err);
+       }
+       else{
+           req.destroy();
+       }
+    });
+});
+
+
 
 // ----- CRUD TASKS ----- 
 app.post('/tasks', async (req, res) => {
@@ -208,6 +259,7 @@ app.delete("/cards/:target", async (req, res) => {
 // Login Routes
 app.post('/login', async (req, res) => {
     try {
+        let sessionData = req.session;
         const {email, pass} = req.body;
 
         const queryResponse = await pool.query(
@@ -222,11 +274,14 @@ app.post('/login', async (req, res) => {
             })
         }
         else{
+            sessionData.user_id = queryResponse.rows[0].userid;
             res.json({
                 success : true,
                 email : queryResponse.rows[0].email,
-                userid : queryResponse.rows[0].userid
+                userid : queryResponse.rows[0].userid,
+                sessionData : sessionData
             })
+            
         }
     }
     catch (error) {
@@ -261,7 +316,9 @@ app.post('/signup', async (req, res) => {
       console.error(error.message)
     }
 });
+
+
 // SERVER LISTEN/START
 app.listen(5000, () => {
     console.log("Server has started");
-})
+});

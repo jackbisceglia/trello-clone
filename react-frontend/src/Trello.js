@@ -1,7 +1,6 @@
 // Packages
 import React, {useState, useEffect, useContext} from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { withCookies } from 'react-cookie';
 
 // Context API
 import { UserContext } from './userContext';

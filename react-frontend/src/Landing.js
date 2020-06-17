@@ -1,5 +1,5 @@
 // Packages
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Modal from 'react-modal';
 import { withCookies } from 'react-cookie';
 
@@ -8,15 +8,8 @@ import { UserContext } from './userContext';
 import { AuthContext } from './authContext';
 
 // CSS Imports
-
-
-
-
-
-
 import './App.css';
 import './landing.css';
-
 
 const modalStyles = {
     content : {
@@ -37,7 +30,7 @@ const modalStyles = {
 Modal.setAppElement('#root')
 
 const isLetter = (character) => {
-    return character.toUpperCase() != character.toLowerCase();
+    return character.toUpperCase() !== character.toLowerCase();
 }
 
 const isNumber = (character) => {
@@ -121,6 +114,13 @@ export default function Landing({ history }) {
         setLoginFailed(false);
     }
 
+    useEffect(() => {
+        if(authed){
+            history.push('/home');
+        }
+    }
+    ,[]);
+
     const handleSignUp = (e) => {
         e.preventDefault();
         fetch(`/signup`, {
@@ -167,6 +167,7 @@ export default function Landing({ history }) {
               if (data.success){
                 setAuthed(true);
                 setUserId(data.userid);
+                console.log(data.sessionData);
                 history.push("/home/")
               }
               else{
