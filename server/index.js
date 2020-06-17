@@ -9,8 +9,57 @@ const pool = require('./db');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 
-// Other Packages
+// Utility Packages/Functions
 const { v4: uuidv4 } = require('uuid');
+const isValidPass = (currPass) => {
+    let hasNumber = false;
+    let hasCapLetter = false;
+    let isLongEnough = false;
+
+    if (currPass.length >= 5) {
+        isLongEnough = true;
+    }
+
+    for (let i = 0; i < currPass.length; i++) {
+        if (isCap(currPass.charAt(i))){
+            hasCapLetter = true;
+        }
+        else if (isNumber(currPass.charAt(i))){
+            hasNumber = true;
+        }
+
+        if (hasNumber && hasCapLetter && isLongEnough){
+            return true;
+        }
+    }
+
+    return false;
+}
+const isLetter = (character) => {
+    return character.toUpperCase() !== character.toLowerCase();
+}
+const isNumber = (character) => {
+    if (character >= '0' && character <= '9') {
+        return true;
+    }
+    else {
+        return  false;
+    }
+}
+const isCap = (character) => {
+    if (!isLetter(character)){
+        return false;
+    }
+    else{
+        if (character.toUpperCase() === character){
+            return true
+        }
+        else {
+            return false
+        }
+    }
+}
+
 
 // Initialize App
 const app = express();
@@ -292,8 +341,7 @@ app.post('/login', async (req, res) => {
 app.post('/signup', async (req, res) => {
     try {
         const {email, pass, passConfirm} = req.body;
-
-        if (pass === passConfirm){
+        if (pass === passConfirm && isValidPass(pass)){
             const queryResponse = await pool.query(
                 "INSERT INTO users (email, pass, userid) VALUES ($1, crypt($2, gen_salt('bf')), $3);",
                 [email, pass, uuidv4()]
@@ -301,15 +349,30 @@ app.post('/signup', async (req, res) => {
 
             res.json({
                 success : true,
-                passMatch : true
+                error : null
             })
 
         }
-        else if (pass !== passConfirm) {
-            res.json({
-                success: false,
-                passMatch : false
-            })
+        else {
+            if (pass !== passConfirm && !isValidPass(pass)){
+                res.json({
+                    success : false,
+                    error : "Passwords Don't Match Nor Are Valid"
+                })
+            }
+            else if (!isValidPass(pass)) {
+                res.json({
+                    success : false,
+                    error : "Passwords Not Valid"
+                })
+            }
+            else {
+                // Both
+                res.json({
+                    success : false,
+                    error : "Passwords Don't Match"
+                })
+            }
         }
     }
     catch (error) {

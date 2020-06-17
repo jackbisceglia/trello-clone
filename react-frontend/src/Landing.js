@@ -95,23 +95,30 @@ export default function Landing({ history }) {
     // Modal State
     const [modalOpen, setModalOpen] = useState(false);
 
-    // Auth
+    // Auth for UI
     const [signUpSent, setSignUpSent] = useState(false);
     const [accountMade,  setAccountMade] = useState(false); 
-    const [passesMatch, setPassesMatch] = useState(true);
     const [passesMatchFrontend, setPassesMatchFrontend] = useState(false);
     const [loginFailed, setLoginFailed] = useState(false);
-
     const [validPass, setValidPass] = useState(false);
+    const [errorMsgSignup, setErrorMsgSignup] = useState('');    
+
 
     const {userId, setUserId} = useContext(UserContext);
     const {authed, setAuthed} = useContext(AuthContext);
 
     const closeModal = () => {
+        // RESET ALL SIGN UP FIELDS UPON CLOSE
         setModalOpen(false);
         setAccountMade(false);
-        setPassesMatch(true);
-        setLoginFailed(false);
+        setSignUpSent(false);
+
+        setPassesMatchFrontend(false);
+        setValidPass(false);
+        setErrorMsgSignup('');
+
+        setSignUpPass('');
+        setSignUpPassConf('');
     }
 
     useEffect(() => {
@@ -141,9 +148,9 @@ export default function Landing({ history }) {
             if (data.success){
                 setAccountMade(true);
             }
-            else if (data.passMatch){
+            else {
                 setAccountMade(false);
-                setPassesMatch(false);
+                setErrorMsgSignup(data.error);
             }
           });
     }
@@ -201,9 +208,7 @@ export default function Landing({ history }) {
                         style={passesMatchFrontend ? {borderBottom: '1px solid green'} : {borderBottom: '1px solid red'}} 
                         onChange={event => {
                             setSignUpPassConf(event.target.value);
-                            console.log(event.target.value);
-                            console.log(signUpPass);
-                            console.log(passesMatchFrontend);
+
                             if(event.target.value === signUpPass){
                                 setPassesMatchFrontend(true);
                             }
@@ -215,9 +220,9 @@ export default function Landing({ history }) {
                     <button className="button sign-up-btn">Sign Up!</button>
                 </form>
 
-                {signUpSent && !accountMade && passesMatch
+                {signUpSent && !accountMade
                     ?
-                    <p style={{color: 'red', margin: '.25rem 0'}}>Passwords don't match</p>
+                    <p style={{color: 'red', margin: '.25rem 0'}}>{errorMsgSignup}</p>
                     :
                     <div style={{display: 'none'}}></div>
                 }
