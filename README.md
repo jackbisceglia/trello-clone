@@ -1,7 +1,6 @@
-<div style="display: flex; justify-content: center;">
-  <img src="https://dl.dropboxusercontent.com/s/1kfggoalknf4nfq/Trello%20Landing%20Page.png?dl=0" style="width: 50%; height: auto"/>
-  <img src="https://dl.dropboxusercontent.com/s/ek274x8j0izxu4x/Trello%20Main%20Page.png?dl=0" style="width: 50%; height: auto"/>
-</div>
+Landing Page             |  Main App
+:-------------------------:|:-------------------------:
+![](https://dl.dropboxusercontent.com/s/1kfggoalknf4nfq/Trello%20Landing%20Page.png?dl=0)  |  ![](https://dl.dropboxusercontent.com/s/ek274x8j0izxu4x/Trello%20Main%20Page.png?dl=0)
                                                                                                                                
 # Trello Clone
 A Full Stack clone of Trello with the PERN stack (PostgreSQL/Express/React/Node)
