@@ -1,4 +1,4 @@
-<img src="https://dl.dropboxusercontent.com/s/1kfggoalknf4nfq/Trello%20Landing%20Page.png?dl=0" style="width: 500px; max-width: 100%; height: auto"/>
+<img src="https://dl.dropboxusercontent.com/s/1kfggoalknf4nfq/Trello%20Landing%20Page.png?dl=0" style="width: 50%; height: auto"/>
 
 # Trello Clone
 A Full Stack clone of Trello with the PERN stack (PostgreSQL/Express/React/Node)
