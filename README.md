@@ -1,5 +1,5 @@
 # Trello Clone
-A Full Stack clone of Trello with the PERN stack (PostgreSQL/Express/React/Node)
+A Full Stack clone of Trello with the __PERN__ stack (PostgreSQL/Express/React/Node)
 
 ## Description
 Trello Clone is a fully functioning task management Web App. The App supports personal Task Boards, allowing 
