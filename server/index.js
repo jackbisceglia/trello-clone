@@ -279,7 +279,6 @@ app.put("/cards/:target", async (req, res) => {
             [cardTitle, target]
         );
         res.json("Card updated");
-        console.log(req.body);
     }
     catch (error) {
         console.error(error);    
@@ -383,5 +382,4 @@ app.post('/signup', async (req, res) => {
 
 // SERVER LISTEN/START
 app.listen(5000, () => {
-    console.log("Server has started");
 });

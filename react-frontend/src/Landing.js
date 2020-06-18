@@ -1,7 +1,6 @@
 // Packages
 import React, { useState, useContext, useEffect } from 'react';
 import Modal from 'react-modal';
-import { withCookies } from 'react-cookie';
 
 // Context API
 import { UserContext } from './userContext';
