@@ -1,7 +1,3 @@
-Landing Page             |  Main App
-:-------------------------:|:-------------------------:
-![](https://dl.dropboxusercontent.com/s/1kfggoalknf4nfq/Trello%20Landing%20Page.png?dl=0)  |  ![](https://dl.dropboxusercontent.com/s/ek274x8j0izxu4x/Trello%20Main%20Page.png?dl=0)
-                                                                                                                               
 # Trello Clone
 A Full Stack clone of Trello with the PERN stack (PostgreSQL/Express/React/Node)
 
@@ -9,6 +5,9 @@ A Full Stack clone of Trello with the PERN stack (PostgreSQL/Express/React/Node)
 Trello Clone is a fully functioning task management Web App. The App supports personal Task Boards, allowing 
 simple and organized task tracking that separates overarching goals or topics from specific tasks. Trello Clone
 has both a minimal and clean UI that promotes well organized tasking.
+Landing Page             |  Main App
+:-------------------------:|:-------------------------:
+![](https://dl.dropboxusercontent.com/s/1kfggoalknf4nfq/Trello%20Landing%20Page.png?dl=0)  |  ![](https://dl.dropboxusercontent.com/s/ek274x8j0izxu4x/Trello%20Main%20Page.png?dl=0)
 
 ## Features
 * UI written in modern __React__, using ES6 principles and functional components with React Hooks
