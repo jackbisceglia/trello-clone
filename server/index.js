@@ -145,7 +145,7 @@ app.post('/tasks', async (req, res) => {
 app.get('/tasks', async (req, res) => {
     try {
         const allTasks = await pool.query(
-            "SELECT * FROM Task ORDER BY order_id"
+            "SELECT * FROM Task ORDER BY ord_no"
         )
         res.json(allTasks.rows);
     } 
