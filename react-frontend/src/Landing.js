@@ -154,8 +154,6 @@ export default function Landing({ history }) {
             }
           });
     }
-
-    const test = useContext(UserContext);
     
     const handleLogin = (e) => {
         e.preventDefault();
@@ -174,8 +172,7 @@ export default function Landing({ history }) {
               if (data.success){
                 setAuthed(true);
                 setUserId(data.userid);
-                console.log(data.sessionData);
-                history.push("/home/")
+                history.push("/home")
               }
               else{
                   setLoginFailed(true)

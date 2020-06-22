@@ -72,11 +72,13 @@ app.use(session({
             pool : pool,
             tableName : 'user_sessions'
         }),
-        secret : 'some secret',
-        resave : false,
+        secret : 'secret',
+        resave : true,
         saveUninitialized : true,
         cookie : {
-            maxAge : 1000 * 60 * 60 * 24
+            maxAge : 1000 * 60 * 60 * 24,
+            secure : false,
+            httpOnly : false
         }
         
     }
@@ -87,10 +89,12 @@ app.use(session({
 app.get('/active', async (req, res, next) => {
     try {
         const user_id = req.session.user_id;
+        console.log(user_id);
         const userMatch = await pool.query(
             "SELECT userid FROM users WHERE userid = $1",
             [user_id]
         );
+        console.log(userMatch)
         
         if (userMatch.rows.length){
             res.json({
@@ -324,13 +328,13 @@ app.post('/login', async (req, res) => {
         }
         else{
             sessionData.user_id = queryResponse.rows[0].userid;
+            console.log(sessionData.user_id);
             res.json({
                 success : true,
                 email : queryResponse.rows[0].email,
                 userid : queryResponse.rows[0].userid,
                 sessionData : sessionData
-            })
-            
+            })            
         }
     }
     catch (error) {

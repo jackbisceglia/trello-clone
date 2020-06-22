@@ -16,6 +16,7 @@
     "react-scripts": "3.4.1",
     "uuid": "^8.1.0"
   },
+  "proxy" : "http://68.183.117.91",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
@@ -27,7 +28,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://localhost:5000",
   "browserslist": {
     "production": [
       ">0.2%",

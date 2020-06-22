@@ -26,17 +26,19 @@ function App( {history} ) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/active')
+    fetch('active')
     .then(res => res.json())
     .then(data => {
       if (data.sessionActive){
-        console.log(data.sessionActive);
+        console.log(data);
         setAuthed(true);
         setUserId(data.userId);
         setLoading(false);
       }
       else{
         setLoading(false);
+        console.log(data);
+
       }
     })
 }
@@ -53,7 +55,7 @@ function App( {history} ) {
       <BrowserRouter>
         <Switch>
             <Route path="/" exact component={Landing}/>
-            <ProtectedRoute path="/home" exact component={Trello}/>
+            <ProtectedRoute component={Trello}/>
         </Switch>
       </BrowserRouter>
       </UserContext.Provider>

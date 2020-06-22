@@ -6,17 +6,17 @@ import { AuthContext } from '../authContext';
 
 
 
-export default function Navbar() {
+export default function Navbar( {history} ) {
     const {userId, setUserId} = useContext(UserContext);
     const {authed, setAuthed} = useContext(AuthContext);
 
     const handleLogout = () => {
-        setUserId(null);
-        setAuthed(false);
-
         fetch('/signout', {
             method : 'DELETE'
         });
+
+        setUserId(null);
+        setAuthed(false);
     }
 
     return (
