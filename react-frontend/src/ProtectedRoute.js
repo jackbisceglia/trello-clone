@@ -7,7 +7,7 @@ export default function ProtectedRoute({component: Component, ...rest}) {
     const {authed, setAuthed} = useContext(AuthContext);
 
     return (
-        <Route {...rest} render={(props) => {
+        <Route path='/home' {...rest} render={(props) => {
             if(authed){
                 return <Component {...props}/>
             }

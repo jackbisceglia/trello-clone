@@ -1,7 +1,6 @@
 // Packages
 import React, { useState, useContext, useEffect } from 'react';
 import Modal from 'react-modal';
-import { withCookies } from 'react-cookie';
 
 // Context API
 import { UserContext } from './userContext';
@@ -130,7 +129,7 @@ export default function Landing({ history }) {
 
     const handleSignUp = (e) => {
         e.preventDefault();
-        fetch(`/signup`, {
+        fetch(`https://68.183.117.91.trellobackend.ga/signup`, {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
@@ -157,7 +156,7 @@ export default function Landing({ history }) {
     
     const handleLogin = (e) => {
         e.preventDefault();
-        fetch(`/login`, {
+        fetch(`https://68.183.117.91.trellobackend.ga/login`, {
             method: 'POST',
             headers: {
               'Accept': 'application/json',

@@ -16,7 +16,7 @@
     "react-scripts": "3.4.1",
     "uuid": "^8.1.0"
   },
-  "proxy" : "http://68.183.117.91",
+  "proxy" : "https://68.183.117.91.trellobackend.ga",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",

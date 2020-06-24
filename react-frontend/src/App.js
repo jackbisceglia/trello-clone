@@ -22,11 +22,10 @@ import './Components/card.css';
 function App( {history} ) {
   const [userId, setUserId] = useState("Default Value");
   const [authed, setAuthed] = useState(false);
-  const [cookies, setCookie] = useCookies(['']);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('active')
+    fetch('https://68.183.117.91.trellobackend.ga/active')
     .then(res => res.json())
     .then(data => {
       if (data.sessionActive){

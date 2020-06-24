@@ -25,7 +25,7 @@ function Trello({ }) {
   console.log(userId);
   // Cards Call
   useEffect(() => {
-    fetch('/cards/'+userId)
+    fetch('https://68.183.117.91.trellobackend.ga/cards/'+userId)
     .then(res => res.json())
     .then(data => {
       console.log(data);
@@ -36,7 +36,7 @@ function Trello({ }) {
 
   // Tasks Call
   useEffect(() => {
-    fetch('/tasks')
+    fetch('https://68.183.117.91.trellobackend.ga/tasks')
     .then(res => res.json())
     .then(data => {
       setTasks([...tasks, ...data]);
@@ -56,7 +56,7 @@ function Trello({ }) {
     })
     setCards(edit);
 
-    fetch(`/cards/${cardId}`, {
+    fetch(`https://68.183.117.91.trellobackend.ga/cards/${cardId}`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -76,7 +76,7 @@ function Trello({ }) {
 
     setCards([...cards, nextCard]);
 
-    fetch(`/cards`, {
+    fetch(`https://68.183.117.91.trellobackend.ga/cards`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -94,7 +94,7 @@ function Trello({ }) {
     setTasks(tasks.filter(currTask => currTask.parentid !== cardId));
     setCards(cards.filter(currCard => currCard.cardid !== cardId));
 
-    fetch(`/cards/${cardId}`, {
+    fetch(`https://68.183.117.91.trellobackend.ga/cards/${cardId}`, {
       method: 'DELETE'
       });
   }
@@ -109,7 +109,7 @@ function Trello({ }) {
     })
     setTasks(edit);
 
-    fetch(`/tasks/${taskId}`, {
+    fetch(`https://68.183.117.91.trellobackend.ga/${taskId}`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -132,7 +132,7 @@ function Trello({ }) {
 
       setTasks([...tasks, newTask]);
 
-      fetch(`/tasks`, {
+      fetch(`https://68.183.117.91.trellobackend.ga/tasks`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -145,7 +145,7 @@ function Trello({ }) {
   const deleteTask = (taskId) => {
     setTasks(tasks.filter(currTask => currTask.taskid !== taskId));
 
-    fetch(`/tasks/${taskId}`, {
+    fetch(`https://68.183.117.91.trellobackend.ga/tasks/${taskId}`, {
       method: 'DELETE'
       });
   }
@@ -157,7 +157,7 @@ function Trello({ }) {
         let isStruck = currTask.completed;
         currTask.completed = !isStruck;
 
-        fetch(`/tasks/completed/${taskId}`, {
+        fetch(`https://68.183.117.91.trellobackend.ga/tasks/completed/${taskId}`, {
           method: 'PUT',
           headers: {
             'Accept': 'application/json',
