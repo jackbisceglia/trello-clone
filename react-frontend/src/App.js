@@ -1,7 +1,6 @@
 // Packages
 import React, {useState, useEffect} from 'react';
 import { BrowserRouter, Route, Switch} from 'react-router-dom';
-import { CookiesProvider, useCookies } from 'react-cookie';
 import Loading from './Components/Loading.js'
 
 // Protected Route for Auth
@@ -25,30 +24,21 @@ function App( {history} ) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://68.183.117.91.trellobackend.ga/active')
-    .then(res => res.json())
-    .then(data => {
-      if (data.sessionActive){
-        console.log(data);
+      const loggedIn = localStorage.getItem('rememberMe') === 'true';
+      if (loggedIn){
+        setUserId(localStorage.getItem('userId'));
         setAuthed(true);
-        setUserId(data.userId);
-        setLoading(false);
-      }
-      else{
-        setLoading(false);
-        console.log(data);
+      }    
 
-      }
-    })
-}
-,[]);
+      setLoading(false);
+    },
+    []);
 
   
   return (loading 
     ?
       <Loading />
     :
-      <CookiesProvider>
       <AuthContext.Provider value={{authed, setAuthed}}>
       <UserContext.Provider value={{userId, setUserId}}>
       <BrowserRouter>
@@ -59,7 +49,6 @@ function App( {history} ) {
       </BrowserRouter>
       </UserContext.Provider>
       </AuthContext.Provider>
-      </CookiesProvider>
   );
 }
 

@@ -11,10 +11,8 @@ export default function Navbar( {history} ) {
     const {authed, setAuthed} = useContext(AuthContext);
 
     const handleLogout = () => {
-        fetch('https://68.183.117.91.trellobackend.ga/signout', {
-            method : 'DELETE',
-            credentials: 'include'
-        });
+        localStorage.setItem('rememberMe', false);
+        localStorage.setItem('userId', '');
 
         setUserId(null);
         setAuthed(false);

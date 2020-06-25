@@ -171,6 +171,9 @@ export default function Landing({ history }) {
               if (data.success){
                 setAuthed(true);
                 setUserId(data.userid);
+                localStorage.setItem('rememberMe', true);
+                localStorage.setItem('userId', data.userid)
+                
                 history.push("/home")
               }
               else{
