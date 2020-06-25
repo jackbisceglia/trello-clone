@@ -216,6 +216,7 @@ export default function Landing({ history }) {
                             }
                         }
                     }/>
+                    <p style={{fontSize: '.675rem', marginTop: '0'}}>Password must contain one uppercase letter and a number</p>
                     <button className="button sign-up-btn">Sign Up!</button>
                 </form>
 
