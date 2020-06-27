@@ -30,5 +30,5 @@ Landing Page             |  Main App
 ## Live App
 https://trello-clone-jackb.netlify.app/
 Sign up or use demo account:
-* __Email__: demo@demo.com
+* __Email__: demo@gmail.com
 * __Password__ Demo123 (case-sensitive)
