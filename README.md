@@ -17,7 +17,7 @@ Landing Page             |  Main App
 * Backend written in __NodeJS/Express__
 * Relational data storage with __PostgreSQL__
 * User details managed with HTTPS REST architecture
-* Sessions managed with express-sessions and pg-simple-connect
+* Sessions managed with local storage
 
 ## Installation
 * Install PostgreSQL and create a db named trelloclone and create tables with queries in ```server\data.sql```
