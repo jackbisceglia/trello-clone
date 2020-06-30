@@ -129,7 +129,7 @@ export default function Landing({ history }) {
 
     const handleSignUp = (e) => {
         e.preventDefault();
-        fetch(`https://68.183.117.91.trellobackend.ga/signup`, {
+        fetch(`/signup`, {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
@@ -156,7 +156,7 @@ export default function Landing({ history }) {
     
     const handleLogin = (e) => {
         e.preventDefault();
-        fetch(`https://68.183.117.91.trellobackend.ga/login`, {
+        fetch(`/login`, {
             method: 'POST',
             headers: {
               'Accept': 'application/json',

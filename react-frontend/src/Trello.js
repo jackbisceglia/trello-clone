@@ -76,7 +76,7 @@ function Trello({ }) {
 
     setCards([...cards, nextCard]);
 
-    fetch(`https://68.183.117.91.trellobackend.ga/cards`, {
+    fetch(`/cards`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -94,7 +94,7 @@ function Trello({ }) {
     setTasks(tasks.filter(currTask => currTask.parentid !== cardId));
     setCards(cards.filter(currCard => currCard.cardid !== cardId));
 
-    fetch(`https://68.183.117.91.trellobackend.ga/cards/${cardId}`, {
+    fetch(`/cards/${cardId}`, {
       method: 'DELETE'
       });
   }
@@ -109,7 +109,7 @@ function Trello({ }) {
     })
     setTasks(edit);
 
-    fetch(`https://68.183.117.91.trellobackend.ga/${taskId}`, {
+    fetch(`/${taskId}`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -132,7 +132,7 @@ function Trello({ }) {
 
       setTasks([...tasks, newTask]);
 
-      fetch(`https://68.183.117.91.trellobackend.ga/tasks`, {
+      fetch(`/tasks`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -145,7 +145,7 @@ function Trello({ }) {
   const deleteTask = (taskId) => {
     setTasks(tasks.filter(currTask => currTask.taskid !== taskId));
 
-    fetch(`https://68.183.117.91.trellobackend.ga/tasks/${taskId}`, {
+    fetch(`/tasks/${taskId}`, {
       method: 'DELETE'
       });
   }
@@ -157,7 +157,7 @@ function Trello({ }) {
         let isStruck = currTask.completed;
         currTask.completed = !isStruck;
 
-        fetch(`https://68.183.117.91.trellobackend.ga/tasks/completed/${taskId}`, {
+        fetch(`/tasks/completed/${taskId}`, {
           method: 'PUT',
           headers: {
             'Accept': 'application/json',
