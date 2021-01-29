@@ -29,7 +29,7 @@ Landing Page             |  Main App
 
 ## Live App
 * __The Live App is currently under maintenance, fixing backend API solutions__
-https://trello-clone-jackb.netlify.app/
-Sign up or use demo account:
+* https://trello-clone-jackb.netlify.app/
+* Sign up or use demo account:
 * __Email__: demo@gmail.com
 * __Password__ Demo123 (case-sensitive)
