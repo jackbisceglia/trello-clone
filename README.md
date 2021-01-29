@@ -28,6 +28,7 @@ Landing Page             |  Main App
 * Frontend should be running on ```http://localhost:3000``` and Express API on ```http://localhost:5000```
 
 ## Live App
+* __The Live App is currently under maintenance, fixing backend API solutions__
 https://trello-clone-jackb.netlify.app/
 Sign up or use demo account:
 * __Email__: demo@gmail.com
